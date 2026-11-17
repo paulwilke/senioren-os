@@ -33,6 +33,11 @@ dnf5 -y install \
     rsms-inter-fonts \
     usbmuxd libimobiledevice-utils ifuse gvfs-afc gvfs-gphoto2
 
+# Tailscale (offizielles Repo; Updates kommen mit jedem Image-Build)
+curl -fsSL -o /etc/yum.repos.d/tailscale.repo https://pkgs.tailscale.com/stable/fedora/tailscale.repo
+dnf5 -y install tailscale
+sed -i 's/^enabled=1/enabled=0/' /etc/yum.repos.d/tailscale.repo
+
 # Nur falls verfügbar: Lüftersteuerung für Macs
 dnf5 -y install --skip-unavailable mbpfan || true
 
@@ -88,6 +93,14 @@ for app in "${HIDE[@]}"; do
 done
 
 systemctl enable senioren-flatpaks.service
+systemctl enable tailscaled.service sshd.service
+
+# Firewall: in fremden Netzen (Urlaub, Café) nichts von außen erreichbar.
+# SSH und alles andere nur über das eigene Tailscale-Netz.
+firewall-offline-cmd --set-default-zone=public
+firewall-offline-cmd --zone=public --remove-service=ssh || true
+firewall-offline-cmd --zone=public --remove-service=cockpit || true
+firewall-offline-cmd --zone=trusted --add-interface=tailscale0
 [[ -e /usr/lib/systemd/system/mbpfan.service ]] && systemctl enable mbpfan.service
 
 # Automatische Updates: Universal Blue "uupd" lädt System + Flatpaks im

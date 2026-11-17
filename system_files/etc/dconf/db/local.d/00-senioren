@@ -7,7 +7,7 @@
 enabled-extensions=['dash-to-dock@micxgx.gmail.com', 'appindicatorsupport@rgcjonas.gmail.com']
 disable-user-extensions=false
 disable-extension-version-validation=false
-favorite-apps=['org.mozilla.firefox.desktop', 'firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'org.mozilla.Thunderbird.desktop', 'thunderbird.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.libreoffice.LibreOffice.calc.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Loupe.desktop', 'com.rustdesk.RustDesk.desktop']
+favorite-apps=['org.mozilla.firefox.desktop', 'firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'org.mozilla.Thunderbird.desktop', 'thunderbird.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.libreoffice.LibreOffice.calc.desktop', 'com.rtosta.zapzap.desktop', 'com.cassidyjames.butler.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Loupe.desktop', 'com.rustdesk.RustDesk.desktop']
 welcome-dialog-last-shown-version='999'
 
 # Kein "Befehl ausführen" (Alt+F2), keine Tastenkürzel-Experimente

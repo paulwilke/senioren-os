@@ -19,10 +19,11 @@ Alles ist Open Source. Einzige Ausnahme ist der Broadcom-WLAN-Treiber, den viele
 | Oberfläche | GNOME im Mac-Stil: Dock unten (immer sichtbar), Fensterknöpfe links, WhiteSur-Icons und -Mauszeiger, Schrift Inter +20 %, großer Mauszeiger, Bedienungshilfen-Menü immer sichtbar |
 | Festgezurrt | Alle Einstellungen aus `00-senioren` sind gesperrt: Dock samt Papierkorb, Hintergrund, Schrift, Fensterknöpfe, Programmübersicht. Einstellungen, Terminal und Software-Center sind ausgeblendet. Alt+F2 ist gesperrt |
 | Ruhe | Ein fester Arbeitsbereich, keine „heiße Ecke“, keine Update-Meldungen, kein Begrüßungs-Assistent, kein automatisches Sperren |
-| Programme | Firefox, Thunderbird (E-Mail), LibreOffice, Bildbetrachter, RustDesk (Fernhilfe durch die Familie) |
-| Firefox | Startseite gesperrt (Sparkasse), Lesezeichen für YouTube, Nachrichten, Wetter, Mediatheken, WhatsApp Web, Videoanruf. uBlock Origin, HTTPS-only, keine Telemetrie, keine fremden Add-ons, kein about:config, Webseiten-Benachrichtigungen blockiert |
+| Programme | Firefox, Thunderbird (E-Mail), LibreOffice, Bildbetrachter, RustDesk (Fernhilfe durch die Familie), ZapZap (WhatsApp), Butler (Home Assistant, z. B. PV-Anlage) |
+| Firefox | Startseite gesperrt (Sparkasse), Lesezeichen für YouTube, Nachrichten, Wetter, Mediatheken, Videoanruf. uBlock Origin, HTTPS-only, keine Telemetrie, keine fremden Add-ons, kein about:config, Webseiten-Benachrichtigungen blockiert |
 | Tastatur/Touchpad | Deutsche Mac-Tastatur, natürliches Scrollen, Tippen zum Klicken |
 | Hardware | Broadcom-WLAN (`wl`), iPhone/iPad (Fotos über „Dateien“), Mac-Lüftersteuerung, falls verfügbar |
+| Fernwartung | Tailscale + SSH (nur Admin-Konten, nur mit Schlüssel, nur über Tailscale). In fremden Netzen ist von außen nichts erreichbar |
 | Updates | Wöchentlich gebaut und in Pakete zerlegt (nur Geändertes wird geladen). Laden im Hintergrund, aktiv nach dem nächsten Neustart. Nie über getaktete Verbindungen |
 
 **Admin-Konten** (Gruppe `wheel`) sind von allen Sperren ausgenommen und sehen alle Programme.
@@ -38,12 +39,46 @@ Nur das Konto des Nutzers ist festgezurrt.
 4. **Im Installer:** Sprache Deutsch, ganze Festplatte verwenden, zwei Benutzer anlegen:
    - **den Nutzer**, *ohne* Administrator-Rechte
    - **dich (Familie/Helfer)**, *mit* Administrator-Rechten
-5. **Nach dem ersten Start** mit dem WLAN verbinden. LibreOffice, RustDesk und der Bildbetrachter
+5. **Nach dem ersten Start** mit dem WLAN verbinden. LibreOffice, RustDesk, ZapZap, Butler und der Bildbetrachter
    werden dann automatisch installiert (ein paar Minuten).
 6. In Thunderbird das E-Mail-Konto einrichten. In RustDesk unter Einstellungen ein festes Passwort setzen
    und dir die ID notieren.
 
+7. ZapZap öffnen und den QR-Code mit dem Handy scannen. In Butler die Adresse von Home Assistant eintragen
+   (z. B. die Tailscale-Adresse oder die Nabu-Casa-Adresse) und anmelden.
+8. Fernwartung einrichten, siehe unten.
+
 Ab jetzt holt sich der Rechner seine Updates selbst aus `ghcr.io/<github-user>/senioren-os:latest`.
+
+## Fernwartung (Tailscale + SSH + KI-Agent)
+
+Einmal am Rechner, im **Admin-Konto**:
+
+```bash
+sudo tailscale up --hostname=senioren-mac        # Link öffnen und im eigenen Tailnet anmelden
+mkdir -p ~/.ssh && nano ~/.ssh/authorized_keys   # eigenen öffentlichen SSH-Schlüssel einfügen
+chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys
+```
+
+In der Tailscale-Verwaltung bei diesem Gerät **„Disable key expiry“** einschalten,
+sonst fliegt es nach 180 Tagen aus dem Netz, z. B. mitten im Urlaub.
+
+Danach von überall:
+
+```bash
+ssh admin@senioren-mac
+```
+
+**KI-Agent zum Reparieren:** Claude Code nur im Admin-Konto installieren (landet in `~/.local/bin`,
+funktioniert auf dem schreibgeschützten System):
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+Bei Problemen per SSH einloggen und `claude` die Sache untersuchen lassen. Das Konto des Nutzers
+bekommt bewusst keinen Agenten: Es hat keine Admin-Rechte, und ein per Sprache steuerbarer Agent wäre
+ein Einfallstor für Telefon- und Webseiten-Betrug.
 
 ## Updates und schlechtes Netz
 
@@ -68,6 +103,34 @@ Ab jetzt holt sich der Rechner seine Updates selbst aus `ghcr.io/<github-user>/s
 Ändern → committen → GitHub baut neu → die Rechner haben es nach dem nächsten Neustart.
 
 **Eigene Variante:** Repo forken und in `iso/config.toml` den GitHub-Benutzernamen anpassen.
+
+## Zusätzliche Apps auf einem einzelnen Rechner (z. B. ChatGPT)
+
+Nicht-freie Apps wie die offizielle ChatGPT-App gehören nicht ins öffentliche Image.
+Als Admin auf dem Rechner selbst installieren:
+
+```bash
+# .rpm von der Hersteller-Seite herunterladen, dann:
+sudo rpm-ostree install ~/Downloads/ChatGPT-*.rpm
+systemctl reboot
+```
+
+Die App bleibt bei System-Updates erhalten. Neue Versionen der App muss man selbst installieren,
+falls der Hersteller kein Paket-Repo einrichtet.
+
+**Ins Dock legen:** Die Dock-Liste ist gesperrt. Deshalb als Admin eine eigene Datei anlegen,
+die die Voreinstellung überschreibt und bei Updates erhalten bleibt:
+
+```bash
+ls /usr/share/applications | grep -i chatgpt      # Namen der .desktop-Datei herausfinden
+sudo tee /etc/dconf/db/local.d/50-lokal <<'X'
+[org/gnome/shell]
+favorite-apps=['org.mozilla.firefox.desktop', 'firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'CHATGPT.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Loupe.desktop', 'com.rustdesk.RustDesk.desktop']
+X
+sudo dconf update
+```
+
+Claude Desktop gibt es offiziell nur für Ubuntu und Debian (Beta), nicht für Fedora. Bis dahin: claude.ai in Firefox.
 
 ## Lokal bauen
 
