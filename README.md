@@ -125,7 +125,7 @@ die die Voreinstellung überschreibt und bei Updates erhalten bleibt:
 ls /usr/share/applications | grep -i chatgpt      # Namen der .desktop-Datei herausfinden
 sudo tee /etc/dconf/db/local.d/50-lokal <<'X'
 [org/gnome/shell]
-favorite-apps=['org.mozilla.firefox.desktop', 'firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'CHATGPT.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Loupe.desktop', 'com.rustdesk.RustDesk.desktop']
+favorite-apps=['org.mozilla.firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'com.cassidyjames.butler.desktop', 'CHATGPT.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Loupe.desktop', 'com.rustdesk.RustDesk.desktop']
 X
 sudo dconf update
 ```

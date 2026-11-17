@@ -98,9 +98,15 @@ systemctl enable tailscaled.service sshd.service
 # Firewall: in fremden Netzen (Urlaub, Café) nichts von außen erreichbar.
 # SSH und alles andere nur über das eigene Tailscale-Netz.
 firewall-offline-cmd --set-default-zone=public
-firewall-offline-cmd --zone=public --remove-service=ssh || true
-firewall-offline-cmd --zone=public --remove-service=cockpit || true
+for svc in ssh cockpit; do
+    if firewall-offline-cmd --zone=public --query-service="$svc"; then
+        firewall-offline-cmd --zone=public --remove-service-from-zone="$svc"
+    fi
+done
 firewall-offline-cmd --zone=trusted --add-interface=tailscale0
+# Prüfen statt hoffen: SSH darf in der Standardzone nicht offen sein
+firewall-offline-cmd --zone=public --list-services
+! firewall-offline-cmd --zone=public --query-service=ssh
 [[ -e /usr/lib/systemd/system/mbpfan.service ]] && systemctl enable mbpfan.service
 
 # Automatische Updates mit uupd (Universal Blue): lädt System + Flatpaks im
@@ -110,9 +116,6 @@ dnf5 -y install uupd
 dnf5 -y copr disable ublue-os/packages
 systemctl disable rpm-ostreed-automatic.timer flatpak-system-update.timer 2>/dev/null || true
 systemctl enable uupd.timer
-
-# Zur Kontrolle im Build-Log: tatsächliche Namen der Programmstarter
-ls /usr/share/applications | grep -iE 'firefox|thunderbird|nautilus|loupe' || true
 
 ### 6. Aufräumen ###########################################################
 dnf5 clean all
