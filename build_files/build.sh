@@ -103,14 +103,16 @@ firewall-offline-cmd --zone=public --remove-service=cockpit || true
 firewall-offline-cmd --zone=trusted --add-interface=tailscale0
 [[ -e /usr/lib/systemd/system/mbpfan.service ]] && systemctl enable mbpfan.service
 
-# Automatische Updates: Universal Blue "uupd" lädt System + Flatpaks im
-# Hintergrund und aktiviert sie beim nächsten Neustart (kein Zwangsneustart).
-if [[ -e /usr/lib/systemd/system/uupd.timer ]]; then
-    systemctl enable uupd.timer
-else
-    sed -i 's/^#\?AutomaticUpdatePolicy=.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf
-    systemctl enable rpm-ostreed-automatic.timer flatpak-system-update.timer || true
-fi
+# Automatische Updates mit uupd (Universal Blue): lädt System + Flatpaks im
+# Hintergrund, aktiv nach dem nächsten Neustart, NIE über getaktete Verbindungen.
+dnf5 -y copr enable ublue-os/packages
+dnf5 -y install uupd
+dnf5 -y copr disable ublue-os/packages
+systemctl disable rpm-ostreed-automatic.timer flatpak-system-update.timer 2>/dev/null || true
+systemctl enable uupd.timer
+
+# Zur Kontrolle im Build-Log: tatsächliche Namen der Programmstarter
+ls /usr/share/applications | grep -iE 'firefox|thunderbird|nautilus|loupe' || true
 
 ### 6. Aufräumen ###########################################################
 dnf5 clean all
