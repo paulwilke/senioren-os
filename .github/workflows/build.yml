@@ -1,0 +1,55 @@
+name: Senioren-OS bauen
+
+# Einmal pro Woche (Sonntagnacht) neu bauen: genug für Sicherheitsupdates,
+# und der Rechner lädt höchstens einmal pro Woche etwas Neues.
+on:
+  schedule:
+    - cron: "0 2 * * 0"
+  push:
+    branches: [main]
+    paths-ignore: ["**.md"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE: ghcr.io/${{ github.repository_owner }}/senioren-os
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Platz schaffen
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache
+          df -h /
+
+      - name: Image bauen
+        run: sudo podman build --pull=newer -t localhost/senioren-os:latest .
+
+      # Zerlegt das Image in bis zu 127 Teile nach Paketen. Bei einem Update lädt
+      # der Rechner nur die Teile, die sich wirklich geändert haben, nicht das ganze System.
+      - name: In kleine Update-Pakete zerlegen (rechunk)
+        run: |
+          GRAPHROOT=$(sudo podman info --format '{{.Store.GraphRoot}}')
+          sudo podman run --rm --pull=never --privileged \
+            --mount=type=image,src=localhost/senioren-os:latest,target=/rpm-ostree \
+            --mount=type=bind,src=${GRAPHROOT},target=/run/host-container-storage,rw \
+            --mount=type=tmpfs,target=/run/rpm-ostree-storage \
+            --entrypoint /usr/bin/rpm-ostree \
+            localhost/senioren-os:latest \
+            compose build-chunked-oci \
+              --max-layers 127 --format-version=2 --bootc \
+              --rootfs /rpm-ostree \
+              --output "containers-storage:[overlay@/run/host-container-storage+/run/rpm-ostree-storage]localhost/senioren-os:latest"
+
+      - name: Nach GHCR hochladen
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | sudo podman login ghcr.io -u "${{ github.actor }}" --password-stdin
+          TAG=$(date +%Y%m%d)
+          sudo podman push localhost/senioren-os:latest ${IMAGE}:latest
+          sudo podman push localhost/senioren-os:latest ${IMAGE}:${TAG}

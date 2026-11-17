@@ -1,0 +1,14 @@
+{
+  "policies": {
+    "DisableTelemetry": true,
+    "DisableAppUpdate": true,
+    "ExtensionSettings": {
+      "*": {
+        "installation_mode": "blocked"
+      }
+    },
+    "RequestedLocales": [
+      "de"
+    ]
+  }
+}

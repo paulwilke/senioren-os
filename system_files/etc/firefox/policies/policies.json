@@ -1,0 +1,158 @@
+{
+  "policies": {
+    "RequestedLocales": [
+      "de"
+    ],
+    "Homepage": {
+      "URL": "https://www.sparkasse.de",
+      "StartPage": "homepage",
+      "Locked": true
+    },
+    "DisplayBookmarksToolbar": "always",
+    "Bookmarks": [
+      {
+        "Title": "Sparkasse",
+        "URL": "https://www.sparkasse.de",
+        "Placement": "toolbar"
+      },
+      {
+        "Title": "YouTube",
+        "URL": "https://www.youtube.com",
+        "Placement": "toolbar"
+      },
+      {
+        "Title": "Tagesschau",
+        "URL": "https://www.tagesschau.de",
+        "Placement": "toolbar"
+      },
+      {
+        "Title": "Wetter",
+        "URL": "https://www.dwd.de",
+        "Placement": "toolbar"
+      },
+      {
+        "Title": "ARD Mediathek",
+        "URL": "https://www.ardmediathek.de",
+        "Placement": "toolbar",
+        "Folder": "Fernsehen"
+      },
+      {
+        "Title": "ZDF Mediathek",
+        "URL": "https://www.zdf.de",
+        "Placement": "toolbar",
+        "Folder": "Fernsehen"
+      },
+      {
+        "Title": "WhatsApp Web",
+        "URL": "https://web.whatsapp.com",
+        "Placement": "toolbar",
+        "Folder": "Familie"
+      },
+      {
+        "Title": "Videoanruf (Jitsi)",
+        "URL": "https://meet.jit.si",
+        "Placement": "toolbar",
+        "Folder": "Familie"
+      },
+      {
+        "Title": "Karte (OpenStreetMap)",
+        "URL": "https://www.openstreetmap.org",
+        "Placement": "toolbar",
+        "Folder": "Nachschlagen"
+      },
+      {
+        "Title": "Wikipedia",
+        "URL": "https://de.wikipedia.org",
+        "Placement": "toolbar",
+        "Folder": "Nachschlagen"
+      }
+    ],
+    "ExtensionSettings": {
+      "*": {
+        "installation_mode": "blocked",
+        "blocked_install_message": "Bitte die Familie oder den Administrator fragen."
+      },
+      "uBlock0@raymondhill.net": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
+      },
+      "langpack-de@firefox.mozilla.org": {
+        "installation_mode": "allowed"
+      },
+      "de-DE@dictionaries.addons.mozilla.org": {
+        "installation_mode": "allowed"
+      }
+    },
+    "HttpsOnlyMode": "force_enabled",
+    "DisableTelemetry": true,
+    "DisableFirefoxStudies": true,
+    "DisablePocket": true,
+    "DisableProfileImport": true,
+    "DontCheckDefaultBrowser": true,
+    "NoDefaultBookmarks": true,
+    "OverrideFirstRunPage": "",
+    "OverridePostUpdatePage": "",
+    "FirefoxHome": {
+      "Search": true,
+      "TopSites": true,
+      "SponsoredTopSites": false,
+      "Highlights": false,
+      "Pocket": false,
+      "SponsoredPocket": false,
+      "Snippets": false,
+      "Locked": true
+    },
+    "UserMessaging": {
+      "ExtensionRecommendations": false,
+      "FeatureRecommendations": false,
+      "UrlbarInterventions": false,
+      "SkipOnboarding": true,
+      "MoreFromMozilla": false,
+      "Locked": true
+    },
+    "EnableTrackingProtection": {
+      "Value": true,
+      "Cryptomining": true,
+      "Fingerprinting": true
+    },
+    "Preferences": {
+      "browser.tabs.warnOnClose": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "browser.toolbars.bookmarks.visibility": {
+        "Value": "always",
+        "Status": "locked"
+      },
+      "browser.download.useDownloadDir": {
+        "Value": true,
+        "Status": "locked"
+      },
+      "media.autoplay.default": {
+        "Value": 0,
+        "Status": "default"
+      }
+    },
+    "BlockAboutConfig": true,
+    "BlockAboutProfiles": true,
+    "DisableDeveloperTools": true,
+    "DisableSetDesktopBackground": true,
+    "DisableProfileRefresh": true,
+    "DisableSafeMode": true,
+    "DisableFeedbackCommands": true,
+    "DisableForgetButton": true,
+    "PromptForDownloadLocation": false,
+    "ShowHomeButton": true,
+    "PasswordManagerEnabled": true,
+    "SanitizeOnShutdown": false,
+    "Permissions": {
+      "Notifications": {
+        "BlockNewRequests": true,
+        "Locked": true
+      },
+      "Autoplay": {
+        "Default": "block-audio"
+      }
+    }
+  }
+}

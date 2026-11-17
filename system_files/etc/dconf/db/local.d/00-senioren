@@ -1,0 +1,117 @@
+# Senioren-OS: Mac-artige, ruhige Einstellungen für GNOME.
+# JEDER Wert in dieser Datei wird beim Bauen automatisch gesperrt
+# (build.sh erzeugt daraus locks/00-senioren-auto). Der Nutzer kann sie nicht verstellen.
+# Ändern: hier im Repo, oder als Admin lokal in /etc/dconf + "sudo dconf update".
+
+[org/gnome/shell]
+enabled-extensions=['dash-to-dock@micxgx.gmail.com', 'appindicatorsupport@rgcjonas.gmail.com']
+disable-user-extensions=false
+disable-extension-version-validation=false
+favorite-apps=['org.mozilla.firefox.desktop', 'firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'org.mozilla.Thunderbird.desktop', 'thunderbird.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.libreoffice.LibreOffice.calc.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Loupe.desktop', 'com.rustdesk.RustDesk.desktop']
+welcome-dialog-last-shown-version='999'
+
+# Kein "Befehl ausführen" (Alt+F2), keine Tastenkürzel-Experimente
+[org/gnome/desktop/lockdown]
+disable-command-line=true
+disable-printing=false
+disable-lock-screen=false
+user-administration-disabled=true
+
+# Dock unten, immer sichtbar, große Symbole – wie auf dem Mac
+[org/gnome/shell/extensions/dash-to-dock]
+dock-position='BOTTOM'
+dock-fixed=true
+intellihide=false
+autohide=false
+extend-height=false
+dash-max-icon-size=56
+icon-size-fixed=true
+show-trash=true
+show-mounts=true
+show-show-apps-button=true
+show-apps-at-top=false
+click-action='minimize-or-previews'
+scroll-action='do-nothing'
+running-indicator-style='DOTS'
+transparency-mode='FIXED'
+background-opacity=0.7
+custom-theme-shrink=true
+disable-overview-on-startup=true
+hot-keys=false
+
+[org/gnome/desktop/interface]
+color-scheme='default'
+accent-color='blue'
+icon-theme='WhiteSur-light'
+cursor-theme='WhiteSur-cursors'
+cursor-size=32
+font-name='Inter 11'
+document-font-name='Inter 11'
+text-scaling-factor=1.2
+enable-hot-corners=false
+clock-show-weekday=true
+clock-show-date=true
+show-battery-percentage=true
+locate-pointer=true
+
+# Fensterknöpfe links: Schließen, Minimieren, Maximieren
+[org/gnome/desktop/wm/preferences]
+button-layout='close,minimize,maximize:'
+action-double-click-titlebar='toggle-maximize'
+num-workspaces=1
+
+[org/gnome/mutter]
+dynamic-workspaces=false
+center-new-windows=true
+edge-tiling=false
+
+# Deutsche Mac-Tastatur, natürliches Scrollen und Tippen-zum-Klicken wie am Mac
+[org/gnome/desktop/input-sources]
+sources=[('xkb', 'de+mac')]
+
+[org/gnome/desktop/peripherals/touchpad]
+natural-scroll=true
+tap-to-click=true
+two-finger-scrolling-enabled=true
+click-method='fingers'
+
+[org/gnome/desktop/peripherals/mouse]
+natural-scroll=false
+
+# Bildschirm nicht ständig sperren; nach 15 Minuten dunkel
+[org/gnome/desktop/session]
+idle-delay=uint32 900
+
+[org/gnome/desktop/screensaver]
+lock-enabled=false
+
+[org/gnome/settings-daemon/plugins/power]
+sleep-inactive-ac-type='nothing'
+sleep-inactive-battery-timeout=1800
+power-button-action='interactive'
+
+# Updates erledigt das System selbst – keine Update-Meldungen für den Nutzer
+[org/gnome/software]
+download-updates=false
+download-updates-notify=false
+allow-updates=false
+first-run=false
+
+# Bedienungshilfen immer oben in der Leiste: Lupe, hoher Kontrast, große Schrift, Vorlesen
+[org/gnome/desktop/a11y]
+always-show-universal-access-status=true
+
+[org/gnome/desktop/notifications]
+show-in-lock-screen=false
+
+[org/gnome/nautilus/preferences]
+default-folder-viewer='icon-view'
+open-folder-on-dnd-hover=false
+
+[org/gnome/nautilus/icon-view]
+default-zoom-level='large'
+
+[org/gnome/desktop/privacy]
+remember-recent-files=true
+remove-old-trash-files=true
+old-files-age=uint32 30

@@ -1,0 +1,13 @@
+[Unit]
+Description=Senioren-OS: Programme (LibreOffice, RustDesk, Bildbetrachter) installieren
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/senioren-flatpaks.sh
+Restart=on-failure
+RestartSec=5min
+
+[Install]
+WantedBy=multi-user.target
