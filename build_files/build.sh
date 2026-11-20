@@ -92,7 +92,11 @@ for app in "${HIDE[@]}"; do
     echo "versteckt: $app"
 done
 
-systemctl enable senioren-flatpaks.service senioren-mac-gpu.service
+# Firefox-Regeln: Vorgabe aus /usr, beim Start ergänzt um /etc/senioren-os/firefox-lokal.json
+/usr/libexec/senioren-firefox-policies.py
+python3 -c "import json; json.load(open('/etc/firefox/policies/policies.json'))"
+
+systemctl enable senioren-flatpaks.service senioren-mac-gpu.service senioren-firefox-policies.service
 systemctl enable tailscaled.service sshd.service
 
 # Firewall: in fremden Netzen (Urlaub, Café) nichts von außen erreichbar.

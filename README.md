@@ -109,7 +109,8 @@ ein Einfallstor für Telefon- und Webseiten-Betrug.
 |---|---|
 | GNOME-Einstellungen (alles wird automatisch gesperrt) | `system_files/etc/dconf/db/local.d/00-senioren` |
 | Zusätzlich gesperrte Werte | `system_files/etc/dconf/db/local.d/locks/senioren` |
-| Firefox: Startseite, Lesezeichen, Regeln | `system_files/etc/firefox/policies/policies.json` |
+| Firefox: Startseite, Lesezeichen, Regeln | `system_files/usr/share/senioren-os/firefox-policies.json` |
+| Firefox pro Rechner (eigene Sparkasse, eigene Lesezeichen) | auf dem Rechner `/etc/senioren-os/firefox-lokal.json`, siehe unten |
 | Programme aus Flathub | `system_files/usr/share/senioren-os/flatpaks.list` |
 | Systempakete, Treiber, Icons, ausgeblendete Programme (`HIDE`) | `build_files/build.sh` |
 | Fedora-Version | `FEDORA_MAJOR` in `Containerfile` (zweimal) |
@@ -118,6 +119,26 @@ ein Einfallstor für Telefon- und Webseiten-Betrug.
 Ändern → committen → GitHub baut neu → die Rechner haben es nach dem nächsten Neustart.
 
 **Eigene Variante:** Repo forken und in `iso/config.toml` den GitHub-Benutzernamen anpassen.
+
+## Eigene Startseite und Lesezeichen pro Rechner
+
+Die Vorgabe zeigt auf sparkasse.de. Die eigene Sparkasse und persönliche Lesezeichen gehören nicht
+ins öffentliche Image, sondern als Admin auf den Rechner selbst. Jeder Eintrag ersetzt den
+gleichnamigen der Vorgabe, bleibt gesperrt und übersteht Updates:
+
+```bash
+sudo mkdir -p /etc/senioren-os
+sudo tee /etc/senioren-os/firefox-lokal.json <<'X'
+{"policies": {
+  "Homepage": {"URL": "https://www.MEINE-SPARKASSE.de", "StartPage": "homepage", "Locked": true},
+  "Bookmarks": [
+    {"Title": "Sparkasse", "URL": "https://www.MEINE-SPARKASSE.de", "Placement": "toolbar"},
+    {"Title": "YouTube", "URL": "https://www.youtube.com", "Placement": "toolbar"}
+  ]
+}}
+X
+sudo systemctl restart senioren-firefox-policies   # danach Firefox neu starten
+```
 
 ## Zusätzliche Apps auf einem einzelnen Rechner (z. B. ChatGPT)
 

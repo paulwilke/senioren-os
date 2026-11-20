@@ -1,0 +1,10 @@
+[Unit]
+Description=Senioren-OS: Firefox-Regeln aus Vorgabe und lokalen Werten erzeugen
+Before=display-manager.service systemd-user-sessions.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/senioren-firefox-policies.py
+
+[Install]
+WantedBy=multi-user.target
