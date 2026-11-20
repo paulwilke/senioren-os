@@ -71,7 +71,7 @@ find /usr/share/icons/WhiteSur* \( -type f -o -type l \) \( -iname '*apple*' -o 
 APPLE_LOOKALIKES=" file-manager safari web-browser Appstore softwarecenter gnome-music calendar
     preferences-system calc gnome-maps indicator-weather addressbook text-editor
     utilities-system-monitor org.gnome.Ptyxis gnome-disks preferences-system-time fonts
-    icloud mail notes photos org.gnome.Podcasts "
+    icloud mail notes photos org.gnome.Podcasts eog "
 mapfile -d '' ICON_FILES < <(find /usr/share/icons/WhiteSur*/apps \( -type f -o -type l \) -print0)
 REMOVE=()
 for f in "${ICON_FILES[@]}"; do

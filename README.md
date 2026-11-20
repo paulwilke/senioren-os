@@ -23,7 +23,7 @@ Everything is open source. The only exception is the Broadcom Wi-Fi driver that 
 | Desktop | GNOME in Mac style: dock at the bottom (always visible), window buttons on the left, WhiteSur icons and cursors, Inter font +20 %, large mouse pointer, accessibility menu always visible |
 | Locked down | All settings from `00-senioren` are locked: dock incl. trash, wallpaper, font, window buttons, app grid. Settings, Terminal and the software center are hidden. Alt+F2 is disabled |
 | Calm | A single fixed workspace, no "hot corner", no update notifications, no welcome tour, no automatic screen lock |
-| Apps | Firefox, Thunderbird (e-mail), LibreOffice, image viewer, RustDesk (remote help from the family), ZapZap (WhatsApp), Butler (Home Assistant, e.g. a solar power system) |
+| Apps | Firefox, Thunderbird (e-mail), LibreOffice, photo gallery (gThumb) and image viewer, RustDesk (remote help from the family), ZapZap (WhatsApp), Butler (Home Assistant, e.g. a solar power system) |
 | Firefox | Locked homepage (Sparkasse), bookmarks for YouTube, news, weather, TV media libraries, video calls. uBlock Origin, HTTPS-only, no telemetry, no third-party add-ons, no about:config, website notifications blocked |
 | Keyboard/touchpad | German Mac keyboard, natural scrolling, tap to click |
 | Hardware | Broadcom Wi-Fi (`wl`), iPhone/iPad (photos via "Files"), Mac fan control if available |
@@ -58,7 +58,7 @@ The plain installation ISO (*"Build installation ISO"*) is still available, e.g.
 4. **In the installer:** language German, use the whole disk, create two users:
    - **the user**, *without* administrator rights
    - **you (family/helper)**, *with* administrator rights
-5. **After the first boot**, connect to Wi-Fi. LibreOffice, RustDesk, ZapZap, Butler and the image viewer
+5. **After the first boot**, connect to Wi-Fi. LibreOffice, RustDesk, ZapZap, Butler, the photo gallery and the image viewer
    are then installed automatically (a few minutes).
 6. Set up the e-mail account in Thunderbird. In RustDesk, set a permanent password under settings
    and write down the ID.
@@ -166,7 +166,7 @@ that overrides the default and survives updates:
 ls /usr/share/applications | grep -i chatgpt      # find the name of the .desktop file
 sudo tee /etc/dconf/db/local.d/50-lokal <<'X'
 [org/gnome/shell]
-favorite-apps=['org.mozilla.firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'com.cassidyjames.butler.desktop', 'CHATGPT.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Loupe.desktop', 'com.rustdesk.RustDesk.desktop']
+favorite-apps=['org.mozilla.firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'com.cassidyjames.butler.desktop', 'CHATGPT.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.gThumb.desktop', 'com.rustdesk.RustDesk.desktop']
 X
 sudo dconf update
 ```

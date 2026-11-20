@@ -7,7 +7,7 @@
 enabled-extensions=['dash-to-dock@micxgx.gmail.com', 'appindicatorsupport@rgcjonas.gmail.com']
 disable-user-extensions=false
 disable-extension-version-validation=false
-favorite-apps=['org.mozilla.firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'com.cassidyjames.butler.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.libreoffice.LibreOffice.calc.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Loupe.desktop', 'com.rustdesk.RustDesk.desktop']
+favorite-apps=['org.mozilla.firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'com.cassidyjames.butler.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.libreoffice.LibreOffice.calc.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.gThumb.desktop', 'com.rustdesk.RustDesk.desktop']
 welcome-dialog-last-shown-version='999'
 
 # No "Run a command" (Alt+F2), no keyboard shortcut experiments
@@ -116,7 +116,8 @@ default-folder-viewer='icon-view'
 open-folder-on-dnd-hover=false
 
 [org/gnome/nautilus/icon-view]
-default-zoom-level='large'
+# 'small' is still easy to read with the 200 % scaling of a Retina display
+default-zoom-level='small'
 
 [org/gnome/desktop/privacy]
 remember-recent-files=true

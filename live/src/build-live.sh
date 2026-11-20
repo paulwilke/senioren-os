@@ -31,7 +31,7 @@ sleep-inactive-battery-type='nothing'
 idle-delay=uint32 0
 
 [org/gnome/shell]
-favorite-apps=['liveinst.desktop', 'anaconda.desktop', 'mac-daten-retten.desktop', 'org.mozilla.firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'com.cassidyjames.butler.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.libreoffice.LibreOffice.calc.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Loupe.desktop', 'org.gnome.Ptyxis.desktop']
+favorite-apps=['liveinst.desktop', 'anaconda.desktop', 'mac-daten-retten.desktop', 'org.mozilla.firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'com.cassidyjames.butler.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.libreoffice.LibreOffice.calc.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.gThumb.desktop', 'org.gnome.Ptyxis.desktop']
 X
 dconf update
 
