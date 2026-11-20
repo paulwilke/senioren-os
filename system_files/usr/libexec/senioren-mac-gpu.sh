@@ -12,7 +12,6 @@ case "$MODELL" in
 esac
 
 VAR=/sys/firmware/efi/efivars/gpu-power-prefs-fa4ce28d-b62f-4c99-9cc3-6815686e30f9
-WERT=$'\x07\x00\x00\x00\x01\x00\x00\x00'   # Attribute (NV+BS+RT) + 1 = integrierte Grafik
 
 if [[ -e $VAR ]] && [[ "$(od -An -tx1 "$VAR" | tr -d ' \n')" == "0700000001000000" ]]; then
     echo "$MODELL: Intel-Grafik ist bereits eingestellt."
@@ -20,5 +19,6 @@ if [[ -e $VAR ]] && [[ "$(od -An -tx1 "$VAR" | tr -d ' \n')" == "070000000100000
 fi
 
 [[ -e $VAR ]] && chattr -i "$VAR"
-printf '%s' "$WERT" > "$VAR"
+# Attribute (NV+BS+RT = 07 00 00 00) + Wert 1 = integrierte Grafik, in EINEM Schreibvorgang
+printf '\x07\x00\x00\x00\x01\x00\x00\x00' > "$VAR"
 echo "$MODELL: Intel-Grafik eingestellt. Wirkt nach dem nächsten Neustart."
