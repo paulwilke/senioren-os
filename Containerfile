@@ -1,7 +1,7 @@
-# Senioren-OS: ein ruhiges, Mac-artiges Fedora Atomic für den MacBook Pro Retina 15" (2012)
+# Senioren-OS: a calm, Mac-like Fedora Atomic for the MacBook Pro Retina 15" (2012)
 #
-# Basis: Universal Blue "silverblue-main" (Fedora Silverblue + Codecs + automatische Updates)
-# Fedora-Version bewusst fest: Ein Versionssprung passiert nur, wenn wir FEDORA_MAJOR erhöhen.
+# Base: Universal Blue "silverblue-main" (Fedora Silverblue + codecs + automatic updates)
+# Fedora version pinned on purpose: a major upgrade only happens when we raise FEDORA_MAJOR.
 ARG FEDORA_MAJOR=44
 
 FROM scratch AS ctx

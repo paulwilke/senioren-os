@@ -1,5 +1,5 @@
 [Unit]
-Description=Senioren-OS: MacBook immer mit Intel-Grafik starten
+Description=Senioren-OS: always boot MacBooks with Intel graphics
 ConditionPathExists=/sys/firmware/efi/efivars
 
 [Service]

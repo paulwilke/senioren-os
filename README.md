@@ -1,130 +1,134 @@
 # Senioren-OS
 
-Ein ruhiges, Mac-artiges Linux für ältere Menschen, die nur surfen, mailen,
-YouTube schauen, Online-Banking machen und ab und zu einen Brief schreiben wollen.
-Gebaut für ältere Intel-MacBooks (getestet wird mit einem MacBook Pro Retina 15", 2012),
-läuft aber auf jedem x86-64-Rechner.
+A calm, Mac-like Linux for older people who just want to browse the web, read e-mail,
+watch YouTube, do online banking and write the occasional letter.
+Built for older Intel MacBooks (tested on a MacBook Pro Retina 15", 2012),
+but runs on any x86-64 computer.
 
-Basis ist **Fedora Silverblue** über [Universal Blue](https://universal-blue.org) (`silverblue-main`).
-Das System ist schreibgeschützt („atomic“): Updates kommen als Ganzes, und wenn etwas schiefgeht,
-wählt man beim Start einfach die vorherige Version.
+It is based on **Fedora Silverblue** via [Universal Blue](https://universal-blue.org) (`silverblue-main`).
+The system is read-only ("atomic"): updates arrive as a whole, and if something goes wrong
+you simply pick the previous version at boot.
 
-Alles ist Open Source. Einzige Ausnahme ist der Broadcom-WLAN-Treiber, den viele MacBooks brauchen
-(aus RPM Fusion nonfree).
+Everything is open source. The only exception is the Broadcom Wi-Fi driver that many MacBooks need
+(from RPM Fusion nonfree).
 
-## Was drin ist
+> **Language:** Senioren-OS is made for German-speaking users. The documentation and code comments
+> are in English, but everything the user sees (desktop, keyboard layout, Firefox bookmarks, installer
+> entries, the data rescue tool) is German. See [Using another language](#using-another-language).
 
-| Bereich | Inhalt |
+## What's included
+
+| Area | Contents |
 |---|---|
-| Oberfläche | GNOME im Mac-Stil: Dock unten (immer sichtbar), Fensterknöpfe links, WhiteSur-Icons und -Mauszeiger, Schrift Inter +20 %, großer Mauszeiger, Bedienungshilfen-Menü immer sichtbar |
-| Festgezurrt | Alle Einstellungen aus `00-senioren` sind gesperrt: Dock samt Papierkorb, Hintergrund, Schrift, Fensterknöpfe, Programmübersicht. Einstellungen, Terminal und Software-Center sind ausgeblendet. Alt+F2 ist gesperrt |
-| Ruhe | Ein fester Arbeitsbereich, keine „heiße Ecke“, keine Update-Meldungen, kein Begrüßungs-Assistent, kein automatisches Sperren |
-| Programme | Firefox, Thunderbird (E-Mail), LibreOffice, Bildbetrachter, RustDesk (Fernhilfe durch die Familie), ZapZap (WhatsApp), Butler (Home Assistant, z. B. PV-Anlage) |
-| Firefox | Startseite gesperrt (Sparkasse), Lesezeichen für YouTube, Nachrichten, Wetter, Mediatheken, Videoanruf. uBlock Origin, HTTPS-only, keine Telemetrie, keine fremden Add-ons, kein about:config, Webseiten-Benachrichtigungen blockiert |
-| Tastatur/Touchpad | Deutsche Mac-Tastatur, natürliches Scrollen, Tippen zum Klicken |
-| Hardware | Broadcom-WLAN (`wl`), iPhone/iPad (Fotos über „Dateien“), Mac-Lüftersteuerung, falls verfügbar |
-| Fernwartung | Tailscale + SSH (nur Admin-Konten, nur mit Schlüssel, nur über Tailscale). In fremden Netzen ist von außen nichts erreichbar |
-| Updates | Täglich gebaut und in Pakete zerlegt (nur Geändertes wird geladen). Laden im Hintergrund, aktiv nach dem nächsten Neustart. Nie über getaktete Verbindungen |
+| Desktop | GNOME in Mac style: dock at the bottom (always visible), window buttons on the left, WhiteSur icons and cursors, Inter font +20 %, large mouse pointer, accessibility menu always visible |
+| Locked down | All settings from `00-senioren` are locked: dock incl. trash, wallpaper, font, window buttons, app grid. Settings, Terminal and the software center are hidden. Alt+F2 is disabled |
+| Calm | A single fixed workspace, no "hot corner", no update notifications, no welcome tour, no automatic screen lock |
+| Apps | Firefox, Thunderbird (e-mail), LibreOffice, image viewer, RustDesk (remote help from the family), ZapZap (WhatsApp), Butler (Home Assistant, e.g. a solar power system) |
+| Firefox | Locked homepage (Sparkasse), bookmarks for YouTube, news, weather, TV media libraries, video calls. uBlock Origin, HTTPS-only, no telemetry, no third-party add-ons, no about:config, website notifications blocked |
+| Keyboard/touchpad | German Mac keyboard, natural scrolling, tap to click |
+| Hardware | Broadcom Wi-Fi (`wl`), iPhone/iPad (photos via "Files"), Mac fan control if available |
+| Remote maintenance | Tailscale + SSH (admin accounts only, keys only, only via Tailscale). On foreign networks nothing is reachable from outside |
+| Updates | Built daily and split into chunks (only what changed is downloaded). Downloaded in the background, active after the next reboot. Never over metered connections |
 
-**Admin-Konten** (Gruppe `wheel`) sind von allen Sperren ausgenommen und sehen alle Programme.
-Nur das Konto des Nutzers ist festgezurrt.
+**Admin accounts** (group `wheel`) are exempt from all restrictions and see all apps.
+Only the user's own account is locked down.
 
-## Ein Stick für alles: ausprobieren, Mac-Daten retten, installieren
+## One USB stick for everything: try it, rescue Mac data, install
 
-*Actions → „Live-ISO bauen“ → Run workflow*, nach etwa 30–40 Minuten `senioren-os-live.iso` herunterladen
-und mit balenaEtcher auf einen Stick schreiben. Am Mac mit **Alt** starten → „EFI Boot“ →
-„Senioren-OS ausprobieren“. Es wird nichts installiert und nichts verändert.
+*Actions → "Build live ISO" → Run workflow*, after about 30–40 minutes download `senioren-os-live.iso`
+and write it to a USB stick with balenaEtcher. On the Mac, boot holding **Alt** → "EFI Boot" →
+"Senioren-OS ausprobieren" (try Senioren-OS). Nothing is installed and nothing is changed.
 
-- So sieht es für den Nutzer aus (festgezurrt). Zusätzlich gibt es im Dock ein Terminal und **„Mac-Daten retten“**.
-- **„Mac-Daten retten“** findet die alte Mac-Platte (APFS, nur lesend) und kopiert alle Benutzerordner
-  auf eine externe Platte (am besten exFAT) in den Ordner `mac-backup`.
-- Gut zum Testen von WLAN, Grafik und Schriftgröße auf genau diesem Gerät, bevor installiert wird.
-- **„Senioren-OS installieren“** im Dock startet den Installer. Er braucht **Internet** (WLAN geht im Live-System),
-  weil er das aktuelle System von GitHub lädt (ca. 4 GB). Die Programme kommen direkt vom Stick.
+- This is what it looks like for the user (locked down). In addition the dock has a terminal and **"Mac-Daten retten"** (rescue Mac data).
+- **"Mac-Daten retten"** finds the old Mac disk (APFS, read-only) and copies all user folders
+  to an external disk (ideally exFAT) into the folder `mac-backup`.
+- Good for testing Wi-Fi, graphics and font size on exactly this machine before installing.
+- **"Senioren-OS installieren"** (install Senioren-OS) in the dock starts the installer. It needs **internet**
+  (Wi-Fi works in the live system), because it downloads the current system from GitHub (about 4 GB). The apps are copied from the stick.
 
-Die bisherige reine Installations-ISO (*„Installations-ISO bauen“*) gibt es weiter, z. B. für Rechner ohne Netz bei der Installation.
+The plain installation ISO (*"Build installation ISO"*) is still available, e.g. for machines without network access during installation.
 
-## Installieren
+## Installing
 
-1. **ISO holen:** In GitHub unter *Actions → „Installations-ISO bauen“ → Run workflow*.
-   Nach etwa 20 Minuten liegt `install.iso` als Download am Lauf.
-   (Oder lokal: siehe unten.)
-2. **Auf einen USB-Stick schreiben** (mindestens 8 GB), z. B. mit [balenaEtcher](https://etcher.balena.io) oder `dd`.
-3. **Am MacBook:** Stick einstecken, beim Einschalten **⌥ (Alt)** gedrückt halten, „EFI Boot“ wählen.
-4. **Im Installer:** Sprache Deutsch, ganze Festplatte verwenden, zwei Benutzer anlegen:
-   - **den Nutzer**, *ohne* Administrator-Rechte
-   - **dich (Familie/Helfer)**, *mit* Administrator-Rechten
-5. **Nach dem ersten Start** mit dem WLAN verbinden. LibreOffice, RustDesk, ZapZap, Butler und der Bildbetrachter
-   werden dann automatisch installiert (ein paar Minuten).
-6. In Thunderbird das E-Mail-Konto einrichten. In RustDesk unter Einstellungen ein festes Passwort setzen
-   und dir die ID notieren.
+1. **Get the ISO:** on GitHub under *Actions → "Build installation ISO" → Run workflow*.
+   After about 20 minutes `install.iso` is available as a download on the run.
+   (Or build locally: see below.)
+2. **Write it to a USB stick** (at least 8 GB), e.g. with [balenaEtcher](https://etcher.balena.io) or `dd`.
+3. **On the MacBook:** plug in the stick, hold **⌥ (Alt)** while powering on, choose "EFI Boot".
+4. **In the installer:** language German, use the whole disk, create two users:
+   - **the user**, *without* administrator rights
+   - **you (family/helper)**, *with* administrator rights
+5. **After the first boot**, connect to Wi-Fi. LibreOffice, RustDesk, ZapZap, Butler and the image viewer
+   are then installed automatically (a few minutes).
+6. Set up the e-mail account in Thunderbird. In RustDesk, set a permanent password under settings
+   and write down the ID.
 
-7. ZapZap öffnen und den QR-Code mit dem Handy scannen. In Butler die Adresse von Home Assistant eintragen
-   (z. B. die Tailscale-Adresse oder die Nabu-Casa-Adresse) und anmelden.
-8. Fernwartung einrichten, siehe unten.
+7. Open ZapZap and scan the QR code with the phone. In Butler, enter the Home Assistant address
+   (e.g. the Tailscale address or the Nabu Casa address) and sign in.
+8. Set up remote maintenance, see below.
 
-Ab jetzt holt sich der Rechner seine Updates selbst aus `ghcr.io/<github-user>/senioren-os:latest`.
+From now on the machine fetches its updates itself from `ghcr.io/<github-user>/senioren-os:latest`.
 
-## Fernwartung (Tailscale + SSH + KI-Agent)
+## Remote maintenance (Tailscale + SSH + AI agent)
 
-Einmal am Rechner, im **Admin-Konto**:
+Once, on the machine, in the **admin account**:
 
 ```bash
-sudo tailscale up --hostname=senioren-mac        # Link öffnen und im eigenen Tailnet anmelden
-mkdir -p ~/.ssh && nano ~/.ssh/authorized_keys   # eigenen öffentlichen SSH-Schlüssel einfügen
+sudo tailscale up --hostname=senioren-mac        # open the link and sign in to your own tailnet
+mkdir -p ~/.ssh && nano ~/.ssh/authorized_keys   # paste your own public SSH key
 chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys
 ```
 
-In der Tailscale-Verwaltung bei diesem Gerät **„Disable key expiry“** einschalten,
-sonst fliegt es nach 180 Tagen aus dem Netz, z. B. mitten im Urlaub.
+In the Tailscale admin console, enable **"Disable key expiry"** for this device,
+otherwise it drops off the network after 180 days, e.g. in the middle of a holiday.
 
-Danach von überall:
+Afterwards, from anywhere:
 
 ```bash
 ssh admin@senioren-mac
 ```
 
-**KI-Agent zum Reparieren:** Claude Code nur im Admin-Konto installieren (landet in `~/.local/bin`,
-funktioniert auf dem schreibgeschützten System):
+**AI agent for repairs:** install Claude Code in the admin account only (it goes to `~/.local/bin`
+and works on the read-only system):
 
 ```bash
 curl -fsSL https://claude.ai/install.sh | bash
 ```
 
-Bei Problemen per SSH einloggen und `claude` die Sache untersuchen lassen. Das Konto des Nutzers
-bekommt bewusst keinen Agenten: Es hat keine Admin-Rechte, und ein per Sprache steuerbarer Agent wäre
-ein Einfallstor für Telefon- und Webseiten-Betrug.
+When there is a problem, log in via SSH and let `claude` investigate. The user's account deliberately
+gets no agent: it has no admin rights, and an agent that can be steered by voice would be
+an entry point for phone and website scams.
 
-## Updates und schlechtes Netz
+## Updates and poor connections
 
-- GitHub baut **jede Nacht** neu. Der Rechner prüft täglich gegen 11 Uhr und holt ein verpasstes Update beim nächsten Einschalten nach.
-- Es wird **nicht das ganze System** geladen, sondern nur die geänderten Teile. Typisch sind wenige bis einige hundert MB pro Tag.
-- `uupd` lädt nur bei genug Akku und **nie über getaktete Verbindungen**. Handy-Hotspots werden meist automatisch erkannt.
-  Für ein schwaches WLAN (z. B. im Urlaub): als Admin *Einstellungen → WLAN → Zahnrad → Details → „Getaktete Verbindung“*.
-- Bricht ein Download ab, ist nichts kaputt. Beim nächsten Mal wird es erneut versucht.
+- GitHub rebuilds **every night**. The machine checks daily around 11 am and catches up on a missed update at the next power-on.
+- **Not the whole system** is downloaded, only the parts that changed. Typically a few to a few hundred MB per day.
+- `uupd` only downloads with enough battery and **never over metered connections**. Phone hotspots are usually detected automatically.
+  For a weak Wi-Fi (e.g. on holiday): as admin *Settings → Wi-Fi → gear icon → Details → "Metered connection"*.
+- If a download is interrupted, nothing breaks. It is retried next time.
 
-## Anpassen
+## Customizing
 
-| Was | Wo |
+| What | Where |
 |---|---|
-| GNOME-Einstellungen (alles wird automatisch gesperrt) | `system_files/etc/dconf/db/local.d/00-senioren` |
-| Zusätzlich gesperrte Werte | `system_files/etc/dconf/db/local.d/locks/senioren` |
-| Firefox: Startseite, Lesezeichen, Regeln | `system_files/usr/share/senioren-os/firefox-policies.json` |
-| Firefox pro Rechner (eigene Sparkasse, eigene Lesezeichen) | auf dem Rechner `/etc/senioren-os/firefox-lokal.json`, siehe unten |
-| Programme aus Flathub | `system_files/usr/share/senioren-os/flatpaks.list` |
-| Systempakete, Treiber, Icons, ausgeblendete Programme (`HIDE`) | `build_files/build.sh` |
-| Fedora-Version | `FEDORA_MAJOR` in `Containerfile` (zweimal) |
-| Update-Quelle für neu installierte Rechner | `iso/config.toml` |
+| GNOME settings (all of them are locked automatically) | `system_files/etc/dconf/db/local.d/00-senioren` |
+| Additionally locked keys | `system_files/etc/dconf/db/local.d/locks/senioren` |
+| Firefox: homepage, bookmarks, policies | `system_files/usr/share/senioren-os/firefox-policies.json` |
+| Firefox per machine (local Sparkasse, own bookmarks) | on the machine `/etc/senioren-os/firefox-lokal.json`, see below |
+| Apps from Flathub | `system_files/usr/share/senioren-os/flatpaks.list` |
+| System packages, drivers, icons, hidden apps (`HIDE`) | `build_files/build.sh` |
+| Fedora version | `FEDORA_MAJOR` in `Containerfile` (twice) |
+| Update source for newly installed machines | `iso/config.toml` |
 
-Ändern → committen → GitHub baut neu → die Rechner haben es nach dem nächsten Neustart.
+Change → commit → GitHub rebuilds → the machines have it after their next reboot.
 
-**Eigene Variante:** Repo forken und in `iso/config.toml` den GitHub-Benutzernamen anpassen.
+**Your own variant:** fork the repo and adjust the GitHub user name in `iso/config.toml`.
 
-## Eigene Startseite und Lesezeichen pro Rechner
+## Per-machine homepage and bookmarks
 
-Die Vorgabe zeigt auf sparkasse.de. Die eigene Sparkasse und persönliche Lesezeichen gehören nicht
-ins öffentliche Image, sondern als Admin auf den Rechner selbst. Jeder Eintrag ersetzt den
-gleichnamigen der Vorgabe, bleibt gesperrt und übersteht Updates:
+The default points to sparkasse.de. The user's own local Sparkasse and personal bookmarks do not belong
+in the public image; as admin, put them on the machine itself. Each entry replaces the default entry
+of the same name, stays locked and survives updates:
 
 ```bash
 sudo mkdir -p /etc/senioren-os
@@ -137,28 +141,28 @@ sudo tee /etc/senioren-os/firefox-lokal.json <<'X'
   ]
 }}
 X
-sudo systemctl restart senioren-firefox-policies   # danach Firefox neu starten
+sudo systemctl restart senioren-firefox-policies   # then restart Firefox
 ```
 
-## Zusätzliche Apps auf einem einzelnen Rechner (z. B. ChatGPT)
+## Extra apps on a single machine (e.g. ChatGPT)
 
-Nicht-freie Apps wie die offizielle ChatGPT-App gehören nicht ins öffentliche Image.
-Als Admin auf dem Rechner selbst installieren:
+Non-free apps such as the official ChatGPT app do not belong in the public image.
+Install them as admin on the machine itself:
 
 ```bash
-# .rpm von der Hersteller-Seite herunterladen, dann:
+# download the .rpm from the vendor's website, then:
 sudo rpm-ostree install ~/Downloads/ChatGPT-*.rpm
 systemctl reboot
 ```
 
-Die App bleibt bei System-Updates erhalten. Neue Versionen der App muss man selbst installieren,
-falls der Hersteller kein Paket-Repo einrichtet.
+The app survives system updates. New versions of the app have to be installed by hand
+unless the vendor provides a package repository.
 
-**Ins Dock legen:** Die Dock-Liste ist gesperrt. Deshalb als Admin eine eigene Datei anlegen,
-die die Voreinstellung überschreibt und bei Updates erhalten bleibt:
+**Adding it to the dock:** the dock list is locked. So, as admin, create a separate file
+that overrides the default and survives updates:
 
 ```bash
-ls /usr/share/applications | grep -i chatgpt      # Namen der .desktop-Datei herausfinden
+ls /usr/share/applications | grep -i chatgpt      # find the name of the .desktop file
 sudo tee /etc/dconf/db/local.d/50-lokal <<'X'
 [org/gnome/shell]
 favorite-apps=['org.mozilla.firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'com.cassidyjames.butler.desktop', 'CHATGPT.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Loupe.desktop', 'com.rustdesk.RustDesk.desktop']
@@ -166,24 +170,45 @@ X
 sudo dconf update
 ```
 
-Claude Desktop gibt es offiziell nur für Ubuntu und Debian (Beta), nicht für Fedora. Bis dahin: claude.ai in Firefox.
+Claude Desktop is officially only available for Ubuntu and Debian (beta), not for Fedora. Until then: claude.ai in Firefox.
 
-## Lokal bauen
+## Using another language
 
-Mit Podman. Auf Apple-Silicon-Macs läuft der Build per Emulation (dauert lange) und braucht etwa 25–30 GB Platz.
+The user-facing defaults are German: keyboard layout `de+mac`, Firefox and Thunderbird
+`RequestedLocales` `de`, Flatpak languages `de;en`, the German bookmark titles and the texts of
+"Mac-Daten retten" and the live ISO boot menu. The system language itself is chosen in the installer.
+
+To use another language on a single machine (as admin):
 
 ```bash
-./build.sh image   # Image bauen
-./build.sh iso     # Installations-ISO nach ./output
+sudo localectl set-locale LANG=en_US.UTF-8        # system language, effective after the next login
+sudo tee /etc/dconf/db/local.d/50-language <<'X'
+[org/gnome/desktop/input-sources]
+sources=[('xkb', 'us')]
+X
+sudo dconf update
 ```
 
-## Notfall
+For Firefox, add `"RequestedLocales": ["en-US"]` to `/etc/senioren-os/firefox-lokal.json` (see above).
+For a whole fork in another language, change the values in `00-senioren`, `firefox-policies.json`,
+`system_files/etc/thunderbird/policies/policies.json` and the `langpacks-de` packages in `build_files/build.sh`.
 
-Wenn nach einem Update etwas nicht geht: beim Start im Menü den **zweiten Eintrag** wählen (die vorherige Version).
-Dauerhaft zurück geht es als Admin mit `sudo bootc rollback`.
+## Building locally
 
-## Lizenz
+With Podman. On Apple Silicon Macs the build runs under emulation (takes a long time) and needs about 25–30 GB of space.
 
-Apache-2.0 für dieses Repo. Die eingebundenen Pakete haben ihre eigenen Lizenzen, z. B. WhiteSur-Icons und -Cursor (GPL-3.0), die beim Bauen heruntergeladen werden.
-Die Apple-Logos aus dem Icon-Theme werden beim Bauen entfernt.
-Dieses Projekt hat nichts mit Apple zu tun. „Mac“ beschreibt nur das Bedienkonzept.
+```bash
+./build.sh image   # build the image
+./build.sh iso     # installation ISO into ./output
+```
+
+## Emergency
+
+If something stops working after an update: at boot, pick the **second entry** in the menu (the previous version).
+To roll back permanently, run `sudo bootc rollback` as admin.
+
+## License
+
+Apache-2.0 for this repo. The bundled packages have their own licenses, e.g. the WhiteSur icons and cursors (GPL-3.0), which are downloaded at build time.
+The Apple logos from the icon theme are removed during the build.
+This project is not affiliated with Apple. "Mac" only describes the style of operation.

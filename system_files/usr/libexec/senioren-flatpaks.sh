@@ -1,6 +1,6 @@
 #!/usr/bin/bash
-# Installiert die Senioren-OS-Programme aus Flathub (systemweit) und hält die Liste aktuell.
-# Läuft bei jedem Start, tut aber nur etwas, wenn ein Programm fehlt.
+# Installs the Senioren-OS apps from Flathub (system-wide) and keeps the list up to date.
+# Runs at every boot, but only does something if an app is missing.
 set -uo pipefail
 
 LIST=/usr/share/senioren-os/flatpaks.list

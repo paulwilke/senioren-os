@@ -1,5 +1,5 @@
-# Zusätzlich gesperrt (Werte bleiben auf Systemstandard).
-# Alles aus 00-senioren wird ohnehin automatisch gesperrt.
+# Additionally locked (values stay at the system default).
+# Everything from 00-senioren is locked automatically anyway.
 /org/gnome/desktop/background/picture-uri
 /org/gnome/desktop/background/picture-uri-dark
 /org/gnome/desktop/background/picture-options

@@ -1,7 +1,7 @@
-# Senioren-OS: Mac-artige, ruhige Einstellungen für GNOME.
-# JEDER Wert in dieser Datei wird beim Bauen automatisch gesperrt
-# (build.sh erzeugt daraus locks/00-senioren-auto). Der Nutzer kann sie nicht verstellen.
-# Ändern: hier im Repo, oder als Admin lokal in /etc/dconf + "sudo dconf update".
+# Senioren-OS: calm, Mac-like settings for GNOME.
+# EVERY value in this file is locked automatically during the build
+# (build.sh generates locks/00-senioren-auto from it). The user cannot change them.
+# To change: here in the repo, or locally as admin in /etc/dconf + "sudo dconf update".
 
 [org/gnome/shell]
 enabled-extensions=['dash-to-dock@micxgx.gmail.com', 'appindicatorsupport@rgcjonas.gmail.com']
@@ -10,14 +10,14 @@ disable-extension-version-validation=false
 favorite-apps=['org.mozilla.firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'com.cassidyjames.butler.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.libreoffice.LibreOffice.calc.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Loupe.desktop', 'com.rustdesk.RustDesk.desktop']
 welcome-dialog-last-shown-version='999'
 
-# Kein "Befehl ausführen" (Alt+F2), keine Tastenkürzel-Experimente
+# No "Run a command" (Alt+F2), no keyboard shortcut experiments
 [org/gnome/desktop/lockdown]
 disable-command-line=true
 disable-printing=false
 disable-lock-screen=false
 user-administration-disabled=true
 
-# Dock unten, immer sichtbar, große Symbole – wie auf dem Mac
+# Dock at the bottom, always visible, large icons – like on the Mac
 [org/gnome/shell/extensions/dash-to-dock]
 dock-position='BOTTOM'
 dock-fixed=true
@@ -54,7 +54,7 @@ clock-show-date=true
 show-battery-percentage=true
 locate-pointer=true
 
-# Fensterknöpfe links: Schließen, Minimieren, Maximieren
+# Window buttons on the left: close, minimize, maximize
 [org/gnome/desktop/wm/preferences]
 button-layout='close,minimize,maximize:'
 action-double-click-titlebar='toggle-maximize'
@@ -65,7 +65,7 @@ dynamic-workspaces=false
 center-new-windows=true
 edge-tiling=false
 
-# Deutsche Mac-Tastatur, natürliches Scrollen und Tippen-zum-Klicken wie am Mac
+# German Mac keyboard, natural scrolling and tap-to-click like on the Mac
 [org/gnome/desktop/input-sources]
 sources=[('xkb', 'de+mac')]
 
@@ -78,7 +78,7 @@ click-method='fingers'
 [org/gnome/desktop/peripherals/mouse]
 natural-scroll=false
 
-# Bildschirm nicht ständig sperren; nach 15 Minuten dunkel
+# Do not keep locking the screen; blank after 15 minutes
 [org/gnome/desktop/session]
 idle-delay=uint32 900
 
@@ -90,14 +90,14 @@ sleep-inactive-ac-type='nothing'
 sleep-inactive-battery-timeout=1800
 power-button-action='interactive'
 
-# Updates erledigt das System selbst – keine Update-Meldungen für den Nutzer
+# The system handles updates itself – no update notifications for the user
 [org/gnome/software]
 download-updates=false
 download-updates-notify=false
 allow-updates=false
 first-run=false
 
-# Bedienungshilfen immer oben in der Leiste: Lupe, hoher Kontrast, große Schrift, Vorlesen
+# Accessibility menu always in the top bar: zoom, high contrast, large text, screen reader
 [org/gnome/desktop/a11y]
 always-show-universal-access-status=true
 

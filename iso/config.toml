@@ -1,6 +1,6 @@
-# Installations-ISO (bootc-image-builder, Typ "anaconda-iso").
-# Der Installer fragt nur Sprache, Benutzer (Name + Passwort) und Festplatte.
-# Danach holt sich das installierte System seine Updates aus der Registry.
+# Installation ISO (bootc-image-builder, type "anaconda-iso").
+# The installer only asks for language, users (name + password) and disk.
+# Afterwards the installed system fetches its updates from the registry.
 
 [customizations.installer.modules]
 enable = [

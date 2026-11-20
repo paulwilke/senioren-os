@@ -1,5 +1,5 @@
 [Unit]
-Description=Senioren-OS: Programme (LibreOffice, RustDesk, Bildbetrachter) installieren
+Description=Senioren-OS: install apps (LibreOffice, RustDesk, image viewer, ...)
 Wants=network-online.target
 After=network-online.target
 

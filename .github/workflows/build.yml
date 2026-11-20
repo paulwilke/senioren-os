@@ -1,7 +1,7 @@
-name: Senioren-OS bauen
+name: Build Senioren-OS
 
-# Jede Nacht neu bauen, damit Sicherheitsupdates schnell ankommen. Dank Rechunk
-# lädt der Rechner nur die geänderten Teile (über getaktete Verbindungen gar nichts).
+# Rebuild every night so security updates arrive quickly. Thanks to rechunking
+# the machine only downloads the parts that changed (nothing at all over metered connections).
 on:
   schedule:
     - cron: "0 2 * * *"
@@ -10,7 +10,7 @@ on:
     paths-ignore: ["**.md", "live/**", ".github/workflows/build-*iso.yml"]
   workflow_dispatch:
 
-# Nur der neueste Build zählt; ältere laufende werden abgebrochen.
+# Only the newest build counts; older running builds are cancelled.
 concurrency:
   group: image-build
   cancel-in-progress: true
@@ -28,17 +28,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Platz schaffen
+      - name: Free up disk space
         run: |
           sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache
           df -h /
 
-      - name: Image bauen
+      - name: Build image
         run: sudo podman build --pull=newer -t localhost/senioren-os:latest .
 
-      # Zerlegt das Image in bis zu 127 Teile nach Paketen. Bei einem Update lädt
-      # der Rechner nur die Teile, die sich wirklich geändert haben, nicht das ganze System.
-      - name: In kleine Update-Pakete zerlegen (rechunk)
+      # Splits the image into up to 127 layers by package. On an update the machine
+      # only downloads the layers that really changed, not the whole system.
+      - name: Split into small update chunks (rechunk)
         run: |
           GRAPHROOT=$(sudo podman info --format '{{.Store.GraphRoot}}')
           sudo podman run --rm --pull=never --privileged \
@@ -52,7 +52,7 @@ jobs:
               --rootfs /rpm-ostree \
               --output "containers-storage:[overlay@/run/host-container-storage+/run/rpm-ostree-storage]localhost/senioren-os:latest"
 
-      - name: Nach GHCR hochladen
+      - name: Push to GHCR
         run: |
           echo "${{ secrets.GITHUB_TOKEN }}" | sudo podman login ghcr.io -u "${{ github.actor }}" --password-stdin
           TAG=$(date +%Y%m%d)
