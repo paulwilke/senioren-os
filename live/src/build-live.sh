@@ -22,8 +22,15 @@ install -m 0644 "$SRC/mac-daten-retten.desktop" /usr/share/applications/mac-date
 rm -f /usr/lib/systemd/user-environment-generators/90-senioren-admin
 cp /usr/share/senioren-os/admin/applications/org.gnome.Ptyxis.desktop /usr/share/applications/ || true
 cat > /etc/dconf/db/local.d/50-live <<'X'
+[org/gnome/settings-daemon/plugins/power]
+sleep-inactive-ac-type='nothing'
+sleep-inactive-battery-type='nothing'
+
+[org/gnome/desktop/session]
+idle-delay=uint32 0
+
 [org/gnome/shell]
-favorite-apps=['mac-daten-retten.desktop', 'org.mozilla.firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'com.cassidyjames.butler.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.libreoffice.LibreOffice.calc.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Loupe.desktop', 'org.gnome.Ptyxis.desktop']
+favorite-apps=['liveinst.desktop', 'anaconda.desktop', 'mac-daten-retten.desktop', 'org.mozilla.firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'com.cassidyjames.butler.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.libreoffice.LibreOffice.calc.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Loupe.desktop', 'org.gnome.Ptyxis.desktop']
 X
 dconf update
 
@@ -35,8 +42,32 @@ DRACUT_NO_XATTR=1 dracut -v --force --zstd --reproducible --no-hostonly \
     "/usr/lib/modules/${kernel}/initramfs.img" "${kernel}"
 systemctl enable livesys.service livesys-late.service
 
-# Im Live-System keine Updates und kein Nachinstallieren
-systemctl disable uupd.timer senioren-flatpaks.service || true
+# Im Live-System keine Updates, kein Nachinstallieren, keine Fernwartung
+systemctl disable uupd.timer senioren-flatpaks.service tailscaled.service sshd.service || true
+
+### Installer (Anaconda) ##################################################
+dnf5 -y install anaconda-live libblockdev-btrfs libblockdev-lvm libblockdev-dm
+for f in /usr/share/applications/liveinst.desktop /usr/share/applications/anaconda.desktop; do
+    [[ -f $f ]] || continue
+    sed -i -e 's/^Name=.*/Name=Senioren-OS installieren/' -e '/^Name\[/d' "$f"
+done
+sed -i 's/ANACONDA_PRODUCTVERSION=.*/ANACONDA_PRODUCTVERSION=""/' /usr/{,s}bin/liveinst || true
+
+# Das System kommt bei der Installation aus dem Netz (immer die aktuelle Version),
+# die Programme werden vom Stick kopiert.
+cat >> /usr/share/anaconda/interactive-defaults.ks <<'X'
+ostreecontainer --url=ghcr.io/paulwilke/senioren-os:latest --transport=registry --no-signature-verification
+%include /usr/share/anaconda/post-scripts/senioren-flatpaks.ks
+X
+mkdir -p /usr/share/anaconda/post-scripts
+cat > /usr/share/anaconda/post-scripts/senioren-flatpaks.ks <<'X'
+%post --erroronfail --nochroot
+deployment="$(ostree rev-parse --repo=/mnt/sysimage/ostree/repo ostree/0/1/0)"
+target="/mnt/sysimage/ostree/deploy/default/deploy/$deployment.0/var/lib/"
+mkdir -p "$target"
+rsync -aAXUHK /var/lib/flatpak "$target"
+%end
+X
 
 # Bootloader-Dateien, die das ISO-Werkzeug erwartet
 dnf5 -y install grub2-efi-x64-cdboot
