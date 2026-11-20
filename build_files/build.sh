@@ -7,6 +7,8 @@ CTX=/ctx
 source "$CTX/senioren-os.conf"
 
 ### 1. Own system files (dconf, Firefox policies, services) ###############
+# Our default apps must not silently replace ones from the base image
+test ! -e /etc/xdg/gnome-mimeapps.list
 cp -a "$CTX/system_files/." /
 
 ### 2. Broadcom-WLAN (BCM4331 im MacBook Pro 2012) #########################
@@ -71,7 +73,7 @@ find /usr/share/icons/WhiteSur* \( -type f -o -type l \) \( -iname '*apple*' -o 
 APPLE_LOOKALIKES=" file-manager safari web-browser Appstore softwarecenter gnome-music calendar
     preferences-system calc gnome-maps indicator-weather addressbook text-editor
     utilities-system-monitor org.gnome.Ptyxis gnome-disks preferences-system-time fonts
-    icloud mail notes photos org.gnome.Podcasts eog "
+    icloud mail notes photos org.gnome.Podcasts eog accessories-document-viewer "
 mapfile -d '' ICON_FILES < <(find /usr/share/icons/WhiteSur*/apps \( -type f -o -type l \) -print0)
 REMOVE=()
 for f in "${ICON_FILES[@]}"; do

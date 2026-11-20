@@ -2,5 +2,7 @@ org.libreoffice.LibreOffice
 com.rustdesk.RustDesk
 org.gnome.Loupe
 org.gnome.gThumb
+org.gnome.Papers
+org.gnome.Showtime
 com.rtosta.zapzap
 com.cassidyjames.butler
