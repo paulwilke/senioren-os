@@ -29,6 +29,17 @@ Alles ist Open Source. Einzige Ausnahme ist der Broadcom-WLAN-Treiber, den viele
 **Admin-Konten** (Gruppe `wheel`) sind von allen Sperren ausgenommen und sehen alle Programme.
 Nur das Konto des Nutzers ist festgezurrt.
 
+## Ausprobieren und Mac-Daten retten (Live-Stick)
+
+*Actions → „Live-ISO bauen“ → Run workflow*, nach etwa 30–40 Minuten `senioren-os-live.iso` herunterladen
+und mit balenaEtcher auf einen Stick schreiben. Am Mac mit **Alt** starten → „EFI Boot“ →
+„Senioren-OS ausprobieren“. Es wird nichts installiert und nichts verändert.
+
+- So sieht es für den Nutzer aus (festgezurrt). Zusätzlich gibt es im Dock ein Terminal und **„Mac-Daten retten“**.
+- **„Mac-Daten retten“** findet die alte Mac-Platte (APFS, nur lesend) und kopiert alle Benutzerordner
+  auf eine externe Platte (am besten exFAT) in den Ordner `mac-backup`.
+- Gut zum Testen von WLAN, Grafik und Schriftgröße auf genau diesem Gerät, bevor installiert wird.
+
 ## Installieren
 
 1. **ISO holen:** In GitHub unter *Actions → „Installations-ISO bauen“ → Run workflow*.

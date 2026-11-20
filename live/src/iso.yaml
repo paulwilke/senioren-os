@@ -1,0 +1,11 @@
+label: "Senioren-OS-Live"
+grub2:
+  default: 0
+  timeout: 10
+  entries:
+    - name: "Senioren-OS ausprobieren"
+      linux: "/images/pxeboot/vmlinuz quiet rhgb root=live:CDLABEL=Senioren-OS-Live enforcing=0 rd.live.image"
+      initrd: "/images/pxeboot/initrd.img"
+    - name: "Senioren-OS ausprobieren (einfache Grafik)"
+      linux: "/images/pxeboot/vmlinuz quiet rhgb root=live:CDLABEL=Senioren-OS-Live enforcing=0 rd.live.image nomodeset"
+      initrd: "/images/pxeboot/initrd.img"

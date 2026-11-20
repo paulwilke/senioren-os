@@ -7,7 +7,7 @@ on:
     - cron: "0 2 * * 0"
   push:
     branches: [main]
-    paths-ignore: ["**.md"]
+    paths-ignore: ["**.md", "live/**", ".github/workflows/build-*iso.yml"]
   workflow_dispatch:
 
 permissions:

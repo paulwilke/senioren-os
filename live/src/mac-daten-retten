@@ -1,0 +1,66 @@
+#!/usr/bin/bash
+# Mac-Daten retten: kopiert die Benutzerordner einer Mac-Platte (APFS)
+# auf eine externe Platte. Die Mac-Platte wird nur gelesen, nie verändert.
+set -uo pipefail
+
+MNT=/run/mac-daten-retten/mac
+blau=$'\e[1;34m'; rot=$'\e[1;31m'; gruen=$'\e[1;32m'; aus=$'\e[0m'
+info()  { echo; echo "${blau}==> $*${aus}"; }
+fehler(){ echo; echo "${rot}FEHLER: $*${aus}"; exit 1; }
+
+if [[ $EUID -ne 0 ]]; then exec sudo "$0" "$@"; fi
+
+aufraeumen() { mountpoint -q "$MNT" && umount "$MNT"; }
+trap aufraeumen EXIT
+
+info "Suche Mac-Platten (APFS) ..."
+mapfile -t PARTS < <(lsblk -rpno NAME,FSTYPE | awk '$2=="apfs"{print $1}')
+((${#PARTS[@]})) || fehler "Keine Mac-Platte (APFS) gefunden. Ausgabe von 'lsblk -f' notieren und um Hilfe fragen."
+
+mkdir -p "$MNT"
+GEFUNDEN=""
+for part in "${PARTS[@]}"; do
+    for vol in 0 1 2 3 4 5; do
+        mountpoint -q "$MNT" && umount "$MNT"
+        apfs-fuse -o allow_other -v "$vol" "$part" "$MNT" 2>/dev/null || continue
+        if compgen -G "$MNT/root/Users/*/Library" >/dev/null; then
+            GEFUNDEN="$part Volume $vol"
+            break 2
+        fi
+    done
+done
+[[ -n $GEFUNDEN ]] || fehler "Mac-Platte gefunden, aber keine Benutzerordner. Ist sie verschlüsselt (FileVault)? Dann:  sudo apfs-fuse -v 1 ${PARTS[0]} $MNT  (fragt nach dem Passwort)"
+
+echo "Gefunden: $GEFUNDEN"
+mapfile -t USERS < <(cd "$MNT/root/Users" && for d in */; do d=${d%/}; [[ $d == Shared || $d == Guest ]] || echo "$d"; done)
+echo "Mac-Benutzer: ${USERS[*]}"
+for u in "${USERS[@]}"; do
+    du -sh "$MNT/root/Users/$u" 2>/dev/null | awk -v u="$u" '{print "   " u ": " $1}'
+done
+
+info "Wohin soll gesichert werden? Externe Platte jetzt anstecken und Enter drücken."
+read -r
+mapfile -t ZIELE < <(findmnt -rno TARGET | grep -E '^/run/media/[^/]+/[^/]+$' | sed 's/\\x20/ /g')
+((${#ZIELE[@]})) || fehler "Keine externe Platte gefunden. Im Dateimanager einmal anklicken, damit sie eingebunden wird, dann neu starten."
+for i in "${!ZIELE[@]}"; do
+    frei=$(df -h --output=avail "${ZIELE[$i]}" | tail -1 | tr -d ' ')
+    echo "  $((i+1))) ${ZIELE[$i]}   (frei: $frei)"
+done
+read -rp "Nummer wählen: " n
+ZIEL=${ZIELE[$((n-1))]:-}
+[[ -n $ZIEL && -d $ZIEL ]] || fehler "Ungültige Auswahl."
+ZIEL="$ZIEL/mac-backup"
+mkdir -p "$ZIEL" || fehler "Kann auf der Platte nicht schreiben (Mac-Format? Dann als exFAT formatieren)."
+
+info "Kopiere nach $ZIEL. Das kann lange dauern ..."
+for u in "${USERS[@]}"; do
+    echo "--- $u"
+    # -rt statt -a: exFAT kennt keine Linux-Rechte und Besitzer
+    rsync -rt --info=progress2 --no-inc-recursive \
+        "$MNT/root/Users/$u/" "$ZIEL/$u/" || echo "${rot}Einige Dateien konnten nicht kopiert werden (siehe oben).${aus}"
+done
+sync
+
+info "Fertig."
+echo "${gruen}Die Daten liegen auf der externen Platte im Ordner 'mac-backup'.${aus}"
+echo "Bitte am anderen Rechner prüfen, bevor Senioren-OS installiert wird."
