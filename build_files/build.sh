@@ -66,6 +66,22 @@ cp -a /tmp/WhiteSur-cursors-*/dist /usr/share/icons/WhiteSur-cursors
 
 # Remove trademarked Apple logos; the default icon is used instead
 find /usr/share/icons/WhiteSur* \( -type f -o -type l \) \( -iname '*apple*' -o -iname 'start-here*' -o -iname 'distributor-logo*' \) -delete
+# App icons that copy Apple's own app icons (Finder, Safari, App Store, Mail, ...) are
+# removed with every link pointing to them; those apps then show their normal icon.
+APPLE_LOOKALIKES=" file-manager safari web-browser Appstore softwarecenter gnome-music calendar
+    preferences-system calc gnome-maps indicator-weather addressbook text-editor
+    utilities-system-monitor org.gnome.Ptyxis gnome-disks preferences-system-time fonts
+    icloud mail notes photos org.gnome.Podcasts "
+mapfile -d '' ICON_FILES < <(find /usr/share/icons/WhiteSur*/apps \( -type f -o -type l \) -print0)
+REMOVE=()
+for f in "${ICON_FILES[@]}"; do
+    target=$(basename "$(readlink -f "$f")"); target=${target%.svg}; target=${target%.png}
+    [[ $APPLE_LOOKALIKES == *" $target "* ]] && REMOVE+=("$f")
+done
+echo "removing ${#REMOVE[@]} Apple look-alike icon files"
+rm -f "${REMOVE[@]}"
+test ! -e /usr/share/icons/WhiteSur/apps/scalable/org.gnome.Nautilus.svg
+
 gtk-update-icon-cache -f /usr/share/icons/WhiteSur || true
 gtk-update-icon-cache -f /usr/share/icons/WhiteSur-light || true
 

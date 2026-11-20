@@ -82,8 +82,15 @@ natural-scroll=false
 [org/gnome/desktop/session]
 idle-delay=uint32 900
 
+# Own calm wallpaper (light and dark identical)
+[org/gnome/desktop/background]
+picture-uri='file:///usr/share/backgrounds/senioren-os/huegel.svg'
+picture-uri-dark='file:///usr/share/backgrounds/senioren-os/huegel.svg'
+picture-options='zoom'
+
 [org/gnome/desktop/screensaver]
 lock-enabled=false
+picture-uri='file:///usr/share/backgrounds/senioren-os/huegel.svg'
 
 [org/gnome/settings-daemon/plugins/power]
 sleep-inactive-ac-type='nothing'
