@@ -39,6 +39,7 @@ dnf5 -y install --skip-unavailable \
     "langpacks-${LANGUAGE}" "glibc-langpack-${LANGUAGE}" "hunspell-${LANGUAGE}"
 # Firefox/Thunderbird language pack enforced by policy, keyboard, system locale
 "$CTX/build_files/language.py" "$CTX/senioren-os.conf"
+install -Dm644 "$CTX/senioren-os.conf" /usr/share/senioren-os/senioren-os.conf
 
 # Tailscale (official repo; updates arrive with every image build)
 curl -fsSL -o /etc/yum.repos.d/tailscale.repo https://pkgs.tailscale.com/stable/fedora/tailscale.repo

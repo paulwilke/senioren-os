@@ -9,7 +9,8 @@ mount -o remount,rw /proc/sys
 # Bring the apps along so they are available live without internet
 mkdir -p /etc/flatpak/remotes.d
 curl --retry 3 -fsSLo /etc/flatpak/remotes.d/flathub.flatpakrepo https://dl.flathub.org/repo/flathub.flatpakrepo
-flatpak config --system --set languages "de;en"
+source /usr/share/senioren-os/senioren-os.conf   # LANGUAGE
+flatpak config --system --set languages "${LANGUAGE};en"
 grep -vE '^\s*(#|$)' /usr/share/senioren-os/flatpaks.list \
     | xargs -r flatpak install --system -y --noninteractive flathub
 
