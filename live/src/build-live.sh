@@ -57,6 +57,7 @@ sed -i 's/ANACONDA_PRODUCTVERSION=.*/ANACONDA_PRODUCTVERSION=""/' /usr/{,s}bin/l
 # die Programme werden vom Stick kopiert.
 cat >> /usr/share/anaconda/interactive-defaults.ks <<'X'
 ostreecontainer --url=ghcr.io/paulwilke/senioren-os:latest --transport=registry --no-signature-verification
+firewall --use-system-defaults
 %include /usr/share/anaconda/post-scripts/senioren-flatpaks.ks
 X
 mkdir -p /usr/share/anaconda/post-scripts

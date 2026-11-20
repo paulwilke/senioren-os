@@ -10,6 +10,8 @@ enable = [
 
 [customizations.installer.kickstart]
 contents = """
+# Keep the firewall as the image ships it (otherwise Anaconda opens SSH)
+firewall --use-system-defaults
 %post --erroronfail
 bootc switch --mutate-in-place --transport registry ghcr.io/paulwilke/senioren-os:latest
 %end
