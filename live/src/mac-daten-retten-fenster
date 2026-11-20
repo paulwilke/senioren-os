@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+# Runs the data rescue in a terminal window and keeps the window open at the end.
+sudo /usr/bin/mac-daten-retten
+echo
+read -rp "Fenster mit Enter schließen …"

@@ -1,0 +1,7 @@
+#!/usr/bin/bash
+# Starts the installer after clearing the usual stumbling blocks on old Macs.
+# Leftovers of an aborted installation would block the next attempt.
+sudo -n umount -R /mnt/sysimage 2>/dev/null || true
+# A wrong clock (old Macs often start in 2020) makes the download fail.
+sudo -n /usr/libexec/senioren-uhr-stellen || true
+exec "$(command -v liveinst)" "$@"

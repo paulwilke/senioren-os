@@ -15,8 +15,9 @@ grep -vE '^\s*(#|$)' /usr/share/senioren-os/flatpaks.list \
     | xargs -r flatpak install --system -y --noninteractive flathub
 
 # Data rescue: read APFS disks of old Macs (read-only)
-dnf5 -y install apfs-fuse rsync
+dnf5 -y install apfs-fuse rsync desktop-file-utils
 install -m 0755 "$SRC/mac-daten-retten" /usr/bin/mac-daten-retten
+install -m 0755 "$SRC/mac-daten-retten-fenster" /usr/libexec/mac-daten-retten-fenster
 install -m 0644 "$SRC/mac-daten-retten.desktop" /usr/share/applications/mac-daten-retten.desktop
 
 # Live view = the user's view (locked down), but with terminal and data rescue in the dock
@@ -31,7 +32,7 @@ sleep-inactive-battery-type='nothing'
 idle-delay=uint32 0
 
 [org/gnome/shell]
-favorite-apps=['liveinst.desktop', 'anaconda.desktop', 'mac-daten-retten.desktop', 'org.mozilla.firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'com.cassidyjames.butler.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.libreoffice.LibreOffice.calc.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.gThumb.desktop', 'org.gnome.Ptyxis.desktop']
+favorite-apps=['senioren-installieren.desktop', 'mac-daten-retten.desktop', 'org.mozilla.firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'com.cassidyjames.butler.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.libreoffice.LibreOffice.calc.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.gThumb.desktop', 'org.gnome.Ptyxis.desktop']
 X
 dconf update
 
@@ -48,10 +49,27 @@ systemctl disable uupd.timer senioren-flatpaks.service tailscaled.service sshd.s
 
 ### Installer (Anaconda) ##################################################
 dnf5 -y install anaconda-live libblockdev-btrfs libblockdev-lvm libblockdev-dm
-for f in /usr/share/applications/liveinst.desktop /usr/share/applications/anaconda.desktop; do
-    [[ -f $f ]] || continue
-    sed -i -e 's/^Name=.*/Name=Senioren-OS installieren/' -e '/^Name\[/d' "$f"
+# Own launcher (clears leftovers and sets the clock first); hide Anaconda's own entries,
+# whose file names change between Fedora releases.
+install -m 0755 "$SRC/senioren-installieren" /usr/bin/senioren-installieren
+install -m 0644 "$SRC/senioren-installieren.desktop" /usr/share/applications/senioren-installieren.desktop
+command -v liveinst
+for f in $(rpm -ql anaconda-live anaconda-gui 2>/dev/null | grep '^/usr/share/applications/.*\.desktop$'); do
+    sed -i '/^NoDisplay=/d; /^\[Desktop Entry\]/a NoDisplay=true' "$f"
+    echo "hidden: $f"
 done
+
+# Correct the clock of old Macs (often 2020) as soon as a network is up
+install -m 0755 "$SRC/senioren-uhr-stellen" /usr/libexec/senioren-uhr-stellen
+install -Dm 0755 "$SRC/90-senioren-uhr" /etc/NetworkManager/dispatcher.d/90-senioren-uhr
+date +%s > /usr/share/senioren-os/live-built
+# chrony may step the clock at any time, not only right after boot
+sed -i 's/^makestep .*/makestep 1.0 -1/' /etc/chrony.conf
+grep -q '^makestep 1.0 -1' /etc/chrony.conf
+systemctl enable chronyd.service
+
+# Broken launchers are silently dropped by GNOME, so check them here
+desktop-file-validate /usr/share/applications/mac-daten-retten.desktop /usr/share/applications/senioren-installieren.desktop
 sed -i 's/ANACONDA_PRODUCTVERSION=.*/ANACONDA_PRODUCTVERSION=""/' /usr/{,s}bin/liveinst || true
 
 # During installation the system comes from the network (always the current version),

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Senioren-OS installieren
+Comment=Senioren-OS fest auf diesen Rechner installieren (die Festplatte wird gelöscht)
+Icon=system-software-install
+Exec=/usr/bin/senioren-installieren
+Terminal=false
+Categories=System;

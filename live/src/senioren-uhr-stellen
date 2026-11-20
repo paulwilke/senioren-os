@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+# Sets the clock if it is obviously wrong (earlier than the day this live image was built).
+# Old Macs often start in 2020; then HTTPS downloads fail with certificate errors.
+# First NTP, then the date header of a plain-HTTP web server (works even if NTP is blocked).
+BUILT=$(cat /usr/share/senioren-os/live-built 2>/dev/null || echo 0)
+ok() { (( $(date +%s) >= BUILT )); }
+ok && exit 0
+chronyc -a makestep >/dev/null 2>&1 && sleep 5
+if ! ok; then
+    d=$(curl -sI --max-time 15 http://example.com | sed -n 's/^[Dd]ate: //p' | tr -d '\r')
+    [[ -n $d ]] && date -s "$d" >/dev/null
+fi
+ok && hwclock --systohc --utc && echo "Uhr gestellt: $(date)"
+ok

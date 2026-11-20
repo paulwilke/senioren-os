@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+# NetworkManager: as soon as a connection is up, check the clock (Wi-Fi often connects late).
+[[ $2 == up ]] && /usr/libexec/senioren-uhr-stellen &
+exit 0

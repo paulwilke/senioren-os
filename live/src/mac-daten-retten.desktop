@@ -3,6 +3,6 @@ Type=Application
 Name=Mac-Daten retten
 Comment=Benutzerdaten von einer alten Mac-Platte auf eine externe Platte kopieren
 Icon=drive-harddisk
-Exec=ptyxis --new-window -x "bash -c 'sudo /usr/bin/mac-daten-retten; echo; read -p \"Fenster mit Enter schließen …\"'"
+Exec=ptyxis --new-window -x /usr/libexec/mac-daten-retten-fenster
 Terminal=false
 Categories=System;
