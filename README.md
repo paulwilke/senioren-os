@@ -13,8 +13,8 @@ Everything is open source. The only exception is the Broadcom Wi-Fi driver that 
 (from RPM Fusion nonfree).
 
 > **Language:** Senioren-OS is made for German-speaking users. The documentation and code comments
-> are in English, but everything the user sees (desktop, keyboard layout, Firefox bookmarks, installer
-> entries, the data rescue tool) is German. See [Using another language](#using-another-language).
+> are in English, but everything the user sees (desktop, apps, keyboard layout, Firefox bookmarks, installer
+> entries, the data rescue tool) is German. The language is set in `senioren-os.conf`, see [Using another language](#using-another-language).
 
 ## What's included
 
@@ -117,6 +117,7 @@ an entry point for phone and website scams.
 | Firefox per machine (local Sparkasse, own bookmarks) | on the machine `/etc/senioren-os/firefox-lokal.json`, see below |
 | Apps from Flathub | `system_files/usr/share/senioren-os/flatpaks.list` |
 | System packages, drivers, icons, hidden apps (`HIDE`) | `build_files/build.sh` |
+| Language and keyboard | `senioren-os.conf` |
 | Fedora version | `FEDORA_MAJOR` in `Containerfile` (twice) |
 | Update source for newly installed machines | `iso/config.toml` |
 
@@ -174,11 +175,22 @@ Claude Desktop is officially only available for Ubuntu and Debian (beta), not fo
 
 ## Using another language
 
-The user-facing defaults are German: keyboard layout `de+mac`, Firefox and Thunderbird
-`RequestedLocales` `de`, Flatpak languages `de;en`, the German bookmark titles and the texts of
-"Mac-Daten retten" and the live ISO boot menu. The system language itself is chosen in the installer.
+Language and keyboard are set in one place, [`senioren-os.conf`](senioren-os.conf):
 
-To use another language on a single machine (as admin):
+```bash
+LANGUAGE=de            # desktop, Firefox, Thunderbird, spell checking (e.g. en, fr, es, it, nl)
+LOCALE=de_DE.UTF-8     # date, numbers, currency
+KEYBOARD=de+mac        # keyboard layout (e.g. us, de, fr+mac, es)
+```
+
+Change, commit, push: the next build installs the matching language packages and makes Firefox and
+Thunderbird use their language pack (installed by policy, so the add-on lock cannot switch them back
+to English). The installer still asks for the system language of each machine.
+
+Still German regardless of this setting: the default bookmark titles in `firefox-policies.json`, the
+texts of "Mac-Daten retten" and the live ISO boot menu. Translate them in a fork if needed.
+
+**Only one machine in another language** (as admin):
 
 ```bash
 sudo localectl set-locale LANG=en_US.UTF-8        # system language, effective after the next login
@@ -189,9 +201,7 @@ X
 sudo dconf update
 ```
 
-For Firefox, add `"RequestedLocales": ["en-US"]` to `/etc/senioren-os/firefox-lokal.json` (see above).
-For a whole fork in another language, change the values in `00-senioren`, `firefox-policies.json`,
-`system_files/etc/thunderbird/policies/policies.json` and the `langpacks-de` packages in `build_files/build.sh`.
+For Firefox, put `"RequestedLocales": ["en-US"]` into `/etc/senioren-os/firefox-lokal.json` (see above).
 
 ## Building locally
 

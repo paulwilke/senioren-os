@@ -7,6 +7,7 @@ ARG FEDORA_MAJOR=44
 FROM scratch AS ctx
 COPY build_files /build_files
 COPY system_files /system_files
+COPY senioren-os.conf /senioren-os.conf
 
 FROM ghcr.io/ublue-os/silverblue-main:${FEDORA_MAJOR}
 

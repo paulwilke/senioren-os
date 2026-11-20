@@ -3,6 +3,8 @@
 set -euxo pipefail
 
 CTX=/ctx
+# Language and keyboard (LANGUAGE, LOCALE, KEYBOARD)
+source "$CTX/senioren-os.conf"
 
 ### 1. Own system files (dconf, Firefox policies, services) ###############
 cp -a "$CTX/system_files/." /
@@ -29,9 +31,14 @@ dnf5 -y install \
     firefox firefox-langpacks thunderbird \
     gnome-shell-extension-dash-to-dock \
     gnome-shell-extension-appindicator \
-    langpacks-de glibc-langpack-de hunspell-de \
     rsms-inter-fonts \
     usbmuxd libimobiledevice-utils ifuse gvfs-afc gvfs-gphoto2
+
+# Language from senioren-os.conf: translations, date formats, spell checking
+dnf5 -y install --skip-unavailable \
+    "langpacks-${LANGUAGE}" "glibc-langpack-${LANGUAGE}" "hunspell-${LANGUAGE}"
+# Firefox/Thunderbird language pack enforced by policy, keyboard, system locale
+"$CTX/build_files/language.py" "$CTX/senioren-os.conf"
 
 # Tailscale (official repo; updates arrive with every image build)
 curl -fsSL -o /etc/yum.repos.d/tailscale.repo https://pkgs.tailscale.com/stable/fedora/tailscale.repo
