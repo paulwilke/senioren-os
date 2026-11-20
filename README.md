@@ -24,7 +24,7 @@ Alles ist Open Source. Einzige Ausnahme ist der Broadcom-WLAN-Treiber, den viele
 | Tastatur/Touchpad | Deutsche Mac-Tastatur, natürliches Scrollen, Tippen zum Klicken |
 | Hardware | Broadcom-WLAN (`wl`), iPhone/iPad (Fotos über „Dateien“), Mac-Lüftersteuerung, falls verfügbar |
 | Fernwartung | Tailscale + SSH (nur Admin-Konten, nur mit Schlüssel, nur über Tailscale). In fremden Netzen ist von außen nichts erreichbar |
-| Updates | Wöchentlich gebaut und in Pakete zerlegt (nur Geändertes wird geladen). Laden im Hintergrund, aktiv nach dem nächsten Neustart. Nie über getaktete Verbindungen |
+| Updates | Täglich gebaut und in Pakete zerlegt (nur Geändertes wird geladen). Laden im Hintergrund, aktiv nach dem nächsten Neustart. Nie über getaktete Verbindungen |
 
 **Admin-Konten** (Gruppe `wheel`) sind von allen Sperren ausgenommen und sehen alle Programme.
 Nur das Konto des Nutzers ist festgezurrt.
@@ -97,8 +97,8 @@ ein Einfallstor für Telefon- und Webseiten-Betrug.
 
 ## Updates und schlechtes Netz
 
-- GitHub baut **einmal pro Woche** (Sonntagnacht). Der Rechner lädt also höchstens einmal pro Woche etwas.
-- Es wird **nicht das ganze System** geladen, sondern nur die geänderten Teile. Typisch sind 50–400 MB pro Woche.
+- GitHub baut **jede Nacht** neu. Der Rechner prüft täglich gegen 11 Uhr und holt ein verpasstes Update beim nächsten Einschalten nach.
+- Es wird **nicht das ganze System** geladen, sondern nur die geänderten Teile. Typisch sind wenige bis einige hundert MB pro Tag.
 - `uupd` lädt nur bei genug Akku und **nie über getaktete Verbindungen**. Handy-Hotspots werden meist automatisch erkannt.
   Für ein schwaches WLAN (z. B. im Urlaub): als Admin *Einstellungen → WLAN → Zahnrad → Details → „Getaktete Verbindung“*.
 - Bricht ein Download ab, ist nichts kaputt. Beim nächsten Mal wird es erneut versucht.
