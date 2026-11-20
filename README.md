@@ -220,5 +220,5 @@ To roll back permanently, run `sudo bootc rollback` as admin.
 ## License
 
 Apache-2.0 for this repo. The bundled packages have their own licenses, e.g. the WhiteSur icons and cursors (GPL-3.0), which are downloaded at build time.
-The Apple logos and the app icons that copy Apple's own apps (Finder, Safari, App Store, Mail, ...) are removed from the icon theme during the build; those apps show their regular icons. The wallpaper `huegel.svg` is our own work (Apache-2.0).
+The Apple logos and the app icons that copy Apple's own apps (Finder, Safari, App Store, Mail, ...) are removed from the icon theme during the build; those apps show their regular icons. The wallpaper `meer.svg` is our own work (Apache-2.0).
 This project is not affiliated with Apple. "Mac" only describes the style of operation.

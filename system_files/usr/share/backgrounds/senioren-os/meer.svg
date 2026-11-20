@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2880 1800" preserveAspectRatio="xMidYMid slice">
+  <!-- Senioren-OS wallpaper "Meer" (own work, Apache-2.0): calm sea in the evening light -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3f74b5"/>
+      <stop offset="0.5" stop-color="#8fb3dc"/>
+      <stop offset="0.85" stop-color="#f2d2b8"/>
+      <stop offset="1" stop-color="#fbe3c8"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff7e8"/>
+      <stop offset="0.3" stop-color="#ffe9c9" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#ffdcb4" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6f9fcf"/>
+      <stop offset="0.35" stop-color="#3f78b0"/>
+      <stop offset="1" stop-color="#1c4778"/>
+    </linearGradient>
+    <linearGradient id="reflex" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff2dc" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#fff2dc" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="18"/></filter>
+    <filter id="softer" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter>
+    <linearGradient id="coast" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8e9cc6"/><stop offset="1" stop-color="#7c8dbd"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="2880" height="1800" fill="url(#sky)"/>
+  <circle cx="1440" cy="1035" r="560" fill="url(#glow)"/>
+  <circle cx="1440" cy="1035" r="105" fill="#fff5e4"/>
+
+  <!-- distant coast on the left -->
+  <path fill="url(#coast)" d="M0 1000 C 160 930, 320 900, 520 925 S 820 990, 980 1035 L0 1035Z"/>
+  <path fill="url(#coast)" opacity="0.7" d="M2880 1010 C 2700 965, 2520 975, 2380 1010 S 2220 1030, 2160 1035 L2880 1035Z"/>
+
+  <!-- sea -->
+  <rect y="1035" width="2880" height="765" fill="url(#sea)"/>
+  <ellipse cx="1440" cy="1300" rx="240" ry="340" fill="url(#reflex)" opacity="0.28" filter="url(#soft)"/>
+  <g filter="url(#softer)">
+    <rect x="1421" y="1050" width="21" height="4" rx="2" fill="#fff4e0" opacity="0.81"/>
+    <rect x="1438" y="1050" width="19" height="4" rx="2" fill="#fff4e0" opacity="0.81"/>
+    <rect x="1427" y="1065" width="30" height="4" rx="2" fill="#fff4e0" opacity="0.79"/>
+    <rect x="1399" y="1065" width="33" height="4" rx="2" fill="#fff4e0" opacity="0.79"/>
+    <rect x="1394" y="1080" width="35" height="5" rx="2" fill="#fff4e0" opacity="0.77"/>
+    <rect x="1401" y="1080" width="25" height="5" rx="2" fill="#fff4e0" opacity="0.77"/>
+    <rect x="1408" y="1097" width="53" height="5" rx="2" fill="#fff4e0" opacity="0.75"/>
+    <rect x="1398" y="1097" width="32" height="5" rx="2" fill="#fff4e0" opacity="0.75"/>
+    <rect x="1418" y="1114" width="63" height="5" rx="3" fill="#fff4e0" opacity="0.72"/>
+    <rect x="1425" y="1114" width="42" height="5" rx="3" fill="#fff4e0" opacity="0.72"/>
+    <rect x="1464" y="1132" width="32" height="5" rx="3" fill="#fff4e0" opacity="0.70"/>
+    <rect x="1449" y="1132" width="42" height="5" rx="3" fill="#fff4e0" opacity="0.70"/>
+    <rect x="1388" y="1151" width="38" height="6" rx="3" fill="#fff4e0" opacity="0.68"/>
+    <rect x="1387" y="1151" width="70" height="6" rx="3" fill="#fff4e0" opacity="0.68"/>
+    <rect x="1375" y="1171" width="65" height="6" rx="3" fill="#fff4e0" opacity="0.65"/>
+    <rect x="1427" y="1171" width="55" height="6" rx="3" fill="#fff4e0" opacity="0.65"/>
+    <rect x="1424" y="1192" width="42" height="6" rx="3" fill="#fff4e0" opacity="0.62"/>
+    <rect x="1367" y="1192" width="50" height="6" rx="3" fill="#fff4e0" opacity="0.62"/>
+    <rect x="1428" y="1215" width="68" height="6" rx="3" fill="#fff4e0" opacity="0.60"/>
+    <rect x="1379" y="1215" width="77" height="6" rx="3" fill="#fff4e0" opacity="0.60"/>
+    <rect x="1401" y="1238" width="65" height="7" rx="3" fill="#fff4e0" opacity="0.57"/>
+    <rect x="1432" y="1238" width="91" height="7" rx="3" fill="#fff4e0" opacity="0.57"/>
+    <rect x="1359" y="1263" width="90" height="7" rx="3" fill="#fff4e0" opacity="0.54"/>
+    <rect x="1388" y="1263" width="111" height="7" rx="3" fill="#fff4e0" opacity="0.54"/>
+    <rect x="1437" y="1288" width="75" height="7" rx="4" fill="#fff4e0" opacity="0.51"/>
+    <rect x="1481" y="1288" width="63" height="7" rx="4" fill="#fff4e0" opacity="0.51"/>
+    <rect x="1367" y="1316" width="119" height="8" rx="4" fill="#fff4e0" opacity="0.48"/>
+    <rect x="1335" y="1316" width="98" height="8" rx="4" fill="#fff4e0" opacity="0.48"/>
+    <rect x="1299" y="1344" width="121" height="8" rx="4" fill="#fff4e0" opacity="0.44"/>
+    <rect x="1430" y="1344" width="112" height="8" rx="4" fill="#fff4e0" opacity="0.44"/>
+    <rect x="1462" y="1375" width="96" height="8" rx="4" fill="#fff4e0" opacity="0.41"/>
+    <rect x="1415" y="1375" width="123" height="8" rx="4" fill="#fff4e0" opacity="0.41"/>
+    <rect x="1397" y="1406" width="118" height="9" rx="4" fill="#fff4e0" opacity="0.38"/>
+    <rect x="1425" y="1406" width="167" height="9" rx="4" fill="#fff4e0" opacity="0.38"/>
+    <rect x="1360" y="1440" width="148" height="9" rx="5" fill="#fff4e0" opacity="0.34"/>
+    <rect x="1269" y="1440" width="152" height="9" rx="5" fill="#fff4e0" opacity="0.34"/>
+    <rect x="1376" y="1475" width="197" height="10" rx="5" fill="#fff4e0" opacity="0.31"/>
+    <rect x="1457" y="1475" width="115" height="10" rx="5" fill="#fff4e0" opacity="0.31"/>
+    <rect x="1327" y="1512" width="170" height="10" rx="5" fill="#fff4e0" opacity="0.27"/>
+    <rect x="1250" y="1512" width="145" height="10" rx="5" fill="#fff4e0" opacity="0.27"/>
+    <rect x="1298" y="1551" width="109" height="11" rx="5" fill="#fff4e0" opacity="0.24"/>
+    <rect x="1227" y="1551" width="195" height="11" rx="5" fill="#fff4e0" opacity="0.24"/>
+    <rect x="1269" y="1592" width="135" height="11" rx="6" fill="#fff4e0" opacity="0.20"/>
+    <rect x="1298" y="1592" width="222" height="11" rx="6" fill="#fff4e0" opacity="0.20"/>
+    <rect x="1228" y="1635" width="174" height="12" rx="6" fill="#fff4e0" opacity="0.17"/>
+    <rect x="1335" y="1635" width="239" height="12" rx="6" fill="#fff4e0" opacity="0.17"/>
+    <rect x="1416" y="1680" width="251" height="12" rx="6" fill="#fff4e0" opacity="0.14"/>
+    <rect x="1280" y="1680" width="180" height="12" rx="6" fill="#fff4e0" opacity="0.14"/>
+    <rect x="1257" y="1728" width="271" height="13" rx="7" fill="#fff4e0" opacity="0.11"/>
+    <rect x="1522" y="1728" width="147" height="13" rx="7" fill="#fff4e0" opacity="0.11"/>
+    <rect x="1238" y="1778" width="170" height="14" rx="7" fill="#fff4e0" opacity="0.09"/>
+    <rect x="1236" y="1778" width="216" height="14" rx="7" fill="#fff4e0" opacity="0.09"/>
+  </g>
+
+  <!-- gentle waves -->
+  <g fill="none" stroke="#ffffff" stroke-linecap="round">
+    <path stroke-opacity="0.22" stroke-width="3" d="M300 1090 q 60 -10 120 0 M1000 1110 q 70 -12 140 0 M1800 1095 q 60 -10 120 0 M2400 1120 q 70 -12 140 0"/>
+    <path stroke-opacity="0.2" stroke-width="5" d="M120 1220 q 110 -18 220 0 M820 1260 q 120 -20 240 0 M1580 1235 q 110 -18 220 0 M2240 1270 q 130 -22 260 0"/>
+    <path stroke-opacity="0.16" stroke-width="7" d="M380 1430 q 170 -28 340 0 M1240 1470 q 180 -30 360 0 M2020 1440 q 170 -28 340 0"/>
+    <path stroke-opacity="0.13" stroke-width="9" d="M60 1650 q 230 -36 460 0 M960 1700 q 250 -40 500 0 M1900 1660 q 240 -38 480 0"/>
+  </g>
+</svg>
