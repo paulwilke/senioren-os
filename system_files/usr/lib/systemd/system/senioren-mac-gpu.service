@@ -1,0 +1,10 @@
+[Unit]
+Description=Senioren-OS: MacBook immer mit Intel-Grafik starten
+ConditionPathExists=/sys/firmware/efi/efivars
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/senioren-mac-gpu.sh
+
+[Install]
+WantedBy=multi-user.target

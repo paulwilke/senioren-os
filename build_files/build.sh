@@ -92,7 +92,7 @@ for app in "${HIDE[@]}"; do
     echo "versteckt: $app"
 done
 
-systemctl enable senioren-flatpaks.service
+systemctl enable senioren-flatpaks.service senioren-mac-gpu.service
 systemctl enable tailscaled.service sshd.service
 
 # Firewall: in fremden Netzen (Urlaub, Café) nichts von außen erreichbar.
