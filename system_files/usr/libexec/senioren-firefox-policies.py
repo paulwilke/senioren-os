@@ -1,12 +1,14 @@
 #!/usr/bin/python3
-"""Erzeugt die Firefox-Regeln aus der Vorgabe im Image und optional eigenen Werten pro Rechner.
+"""Generates the Firefox policies from the defaults in the image plus optional per-machine values.
 
-Vorgabe:     /usr/share/senioren-os/firefox-policies.json   (kommt mit jedem Update)
-Pro Rechner: /etc/senioren-os/firefox-lokal.json            (bleibt bei Updates erhalten)
-Ergebnis:    /etc/firefox/policies/policies.json
+Defaults:    /usr/share/senioren-os/firefox-policies.json   (comes with every update)
+Per machine: /etc/senioren-os/firefox-lokal.json            (survives updates)
+Result:      /etc/firefox/policies/policies.json
 
-firefox-lokal.json hat dieselbe Form ({"policies": {...}}). Jeder Eintrag darin ersetzt den
-gleichnamigen Eintrag der Vorgabe vollständig, z. B. "Homepage" oder "Bookmarks"."""
+firefox-lokal.json has the same shape ({"policies": {...}}). Each entry in it completely replaces
+the default entry of the same name, e.g. "Homepage" or "Bookmarks".
+
+(VORGABE = defaults, LOKAL = local, ZIEL = target, regeln = policies.)"""
 import json, os
 
 VORGABE = "/usr/share/senioren-os/firefox-policies.json"
@@ -17,8 +19,8 @@ regeln = json.load(open(VORGABE))
 if os.path.exists(LOKAL):
     try:
         regeln["policies"].update(json.load(open(LOKAL))["policies"])
-    except (ValueError, KeyError) as e:   # kaputte lokale Datei: lieber Vorgabe als gar nichts
-        print(f"{LOKAL} ignoriert: {e}")
+    except (ValueError, KeyError) as e:   # broken local file: better the defaults than nothing
+        print(f"{LOKAL} ignored: {e}")
 
 os.makedirs(os.path.dirname(ZIEL), exist_ok=True)
 tmp = ZIEL + ".neu"

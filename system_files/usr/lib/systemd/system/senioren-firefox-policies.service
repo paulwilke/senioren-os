@@ -1,5 +1,5 @@
 [Unit]
-Description=Senioren-OS: Firefox-Regeln aus Vorgabe und lokalen Werten erzeugen
+Description=Senioren-OS: generate Firefox policies from defaults and local values
 Before=display-manager.service systemd-user-sessions.service
 
 [Service]

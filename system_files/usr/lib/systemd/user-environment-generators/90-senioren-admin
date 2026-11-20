@@ -1,6 +1,6 @@
 #!/usr/bin/bash
-# Admins (Gruppe "wheel") bekommen alle Programme und keine Einstellungs-Sperren.
-# Das Konto des Nutzers (kein Admin) bleibt festgezurrt.
+# Admins (group "wheel") get all apps and no settings locks.
+# The user's account (not an admin) stays locked down.
 if id -nG | tr ' ' '\n' | grep -qx wheel; then
     echo "DCONF_PROFILE=senioren-admin"
     echo "XDG_DATA_DIRS=/usr/share/senioren-os/admin:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"

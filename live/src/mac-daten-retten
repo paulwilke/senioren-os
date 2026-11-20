@@ -1,6 +1,7 @@
 #!/usr/bin/bash
-# Mac-Daten retten: kopiert die Benutzerordner einer Mac-Platte (APFS)
-# auf eine externe Platte. Die Mac-Platte wird nur gelesen, nie verändert.
+# Mac-Daten retten (rescue Mac data): copies the user folders of a Mac disk (APFS)
+# to an external disk. The Mac disk is only read, never modified.
+# The messages are German on purpose: they are shown to the end user.
 set -uo pipefail
 
 MNT=/run/mac-daten-retten/mac
@@ -55,7 +56,7 @@ mkdir -p "$ZIEL" || fehler "Kann auf der Platte nicht schreiben (Mac-Format? Dan
 info "Kopiere nach $ZIEL. Das kann lange dauern ..."
 for u in "${USERS[@]}"; do
     echo "--- $u"
-    # -rt statt -a: exFAT kennt keine Linux-Rechte und Besitzer
+    # -rt instead of -a: exFAT has no Linux permissions or owners
     rsync -rt --info=progress2 --no-inc-recursive \
         "$MNT/root/Users/$u/" "$ZIEL/$u/" || echo "${rot}Einige Dateien konnten nicht kopiert werden (siehe oben).${aus}"
 done

@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# Senioren-OS lokal bauen (auf dem Mac mit Podman).
-#   ./build.sh image   -> Container-Image bauen (x86_64, läuft auf Apple Silicon per Emulation)
-#   ./build.sh iso     -> Installations-ISO nach ./output erzeugen
-#   ./build.sh push    -> Image nach ghcr.io hochladen (Quelle für den Nutzers Updates)
+# Build Senioren-OS locally (on the Mac with Podman).
+#   ./build.sh image   -> build the container image (x86_64, runs on Apple Silicon via emulation)
+#   ./build.sh iso     -> create the installation ISO in ./output
+#   ./build.sh push    -> push the image to ghcr.io (the source of the machines' updates)
 set -euo pipefail
 cd "$(dirname "$0")"
 
 IMAGE=localhost/senioren-os:latest
 REMOTE=ghcr.io/paulwilke/senioren-os:latest
-# ISO und Image müssen im "rootful" Podman-Speicher liegen
+# ISO and image must live in the "rootful" Podman storage
 PODMAN=(podman --connection podman-machine-default-root)
 
 case "${1:-}" in
