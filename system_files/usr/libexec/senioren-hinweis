@@ -1,0 +1,86 @@
+#!/usr/bin/python3
+"""Friendly notice for files this computer cannot (or should not) open by double-click:
+Windows programs, Mac disk images, phone apps, installer packages, disk images.
+
+Instead of an obscure error or a disk tool that offers to overwrite a drive, the user sees
+in large, plain German what the file is and whom to ask. The helper's name is set per
+machine in /etc/senioren-os/helfer (e.g. "Paul"); without it, "deine Familie" is used."""
+import os, sys
+
+import gi
+gi.require_version("Gtk", "4.0")
+gi.require_version("Adw", "1")
+from gi.repository import Adw, Gio  # noqa: E402
+
+KINDS = {
+    "windows": ({".exe", ".msi", ".bat", ".cmd", ".lnk", ".scr", ".com"},
+                "Das ist ein Programm für Windows-Computer.",
+                "Es läuft auf diesem Computer nicht."),
+    "mac": ({".dmg", ".pkg", ".mpkg", ".app"},
+            "Das ist ein Programm für Apple-Computer (Mac).",
+            "Es läuft auf diesem Computer nicht."),
+    "handy": ({".apk", ".xapk", ".ipa"},
+              "Das ist eine App für Handys.",
+              "Sie läuft auf diesem Computer nicht. Auf dem Handy installiert man Apps über den App Store."),
+    "technik": ({".iso", ".img", ".raw", ".rpm", ".deb", ".sh", ".run", ".bin", ".flatpakref", ".flatpak"},
+                "Das ist eine Datei für Fachleute.",
+                "Sie wird nicht per Doppelklick geöffnet."),
+}
+
+
+def kind_of(path):
+    ext = os.path.splitext(path)[1].lower()
+    for kind, (exts, *_texts) in KINDS.items():
+        if ext in exts:
+            return kind
+    return "technik"
+
+
+def helper():
+    try:
+        name = open("/etc/senioren-os/helfer").read().strip()
+        return name or "deine Familie"
+    except OSError:
+        return "deine Familie"
+
+
+def on_activate(app):
+    path = app.path
+    kind = kind_of(path) if path else "technik"
+    _exts, title, detail = KINDS[kind]
+    name = os.path.basename(path) if path else ""
+
+    dialog = Adw.AlertDialog(
+        heading=title,
+        body=f"»{name}«\n\n{detail}\n\nWenn du dieses Programm brauchst, frag bitte {helper()}.",
+    )
+    dialog.add_response("ok", "Verstanden")
+    if path and os.path.exists(path):
+        dialog.add_response("trash", "In den Papierkorb legen")
+    dialog.set_default_response("ok")
+    dialog.set_close_response("ok")
+
+    def on_response(_dialog, response):
+        if response == "trash":
+            try:
+                Gio.File.new_for_path(path).trash(None)
+            except Exception:  # noqa: BLE001 - never crash in front of the user
+                pass
+        app.release()
+        app.quit()
+
+    dialog.connect("response", on_response)
+    # Without a parent, libadwaita shows the dialog in its own window
+    app.hold()
+    dialog.present(None)
+
+
+def main():
+    app = Adw.Application(application_id="org.senioren_os.Hinweis",
+                          flags=Gio.ApplicationFlags.NON_UNIQUE)
+    app.path = os.path.abspath(sys.argv[1]) if len(sys.argv) > 1 else ""
+    app.connect("activate", on_activate)
+    app.run([sys.argv[0]])
+
+
+main()

@@ -28,6 +28,47 @@ image/svg+xml=org.gnome.Loupe.desktop
 application/vnd.appimage=it.mijorus.gearlever.desktop
 application/x-iso9660-appimage=it.mijorus.gearlever.desktop
 
+# Windows/Mac programs, phone apps, installer packages and disk images: a plain notice
+# instead of an error or a disk tool that offers to overwrite a drive
+application/x-ms-dos-executable=senioren-hinweis.desktop
+application/x-msdownload=senioren-hinweis.desktop
+application/vnd.microsoft.portable-executable=senioren-hinweis.desktop
+application/x-msi=senioren-hinweis.desktop
+application/x-ms-installer=senioren-hinweis.desktop
+application/x-ms-shortcut=senioren-hinweis.desktop
+application/x-bat=senioren-hinweis.desktop
+application/x-msdos-program=senioren-hinweis.desktop
+application/x-apple-diskimage=senioren-hinweis.desktop
+application/x-xar=senioren-hinweis.desktop
+application/vnd.android.package-archive=senioren-hinweis.desktop
+application/x-raw-disk-image=senioren-hinweis.desktop
+application/x-cd-image=senioren-hinweis.desktop
+application/x-rpm=senioren-hinweis.desktop
+application/vnd.debian.binary-package=senioren-hinweis.desktop
+application/x-shellscript=senioren-hinweis.desktop
+application/x-executable=senioren-hinweis.desktop
+application/vnd.flatpak.ref=senioren-hinweis.desktop
+application/vnd.flatpak=senioren-hinweis.desktop
+
 [Removed Associations]
 application/vnd.appimage=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;
 application/x-iso9660-appimage=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;
+application/x-ms-dos-executable=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/x-msdownload=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/vnd.microsoft.portable-executable=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/x-msi=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/x-ms-installer=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/x-ms-shortcut=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/x-bat=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/x-msdos-program=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/x-apple-diskimage=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/x-xar=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/vnd.android.package-archive=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/x-raw-disk-image=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/x-cd-image=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/x-rpm=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/vnd.debian.binary-package=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/x-shellscript=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/x-executable=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/vnd.flatpak.ref=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;
+application/vnd.flatpak=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;gnome-software-local-file-packagekit.desktop;org.gnome.Nautilus.desktop;

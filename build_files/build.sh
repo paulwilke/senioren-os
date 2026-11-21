@@ -10,6 +10,8 @@ source "$CTX/senioren-os.conf"
 # Our default apps must not silently replace ones from the base image
 test ! -e /etc/xdg/gnome-mimeapps.list
 cp -a "$CTX/system_files/." /
+desktop-file-validate /usr/share/applications/senioren-hinweis.desktop
+update-desktop-database /usr/share/applications
 
 ### 2. Broadcom-WLAN (BCM4331 im MacBook Pro 2012) #########################
 # Prebuilt kmod-wl from Universal Blue, matching the kernel in the image.
@@ -89,11 +91,14 @@ gtk-update-icon-cache -f /usr/share/icons/WhiteSur || true
 gtk-update-icon-cache -f /usr/share/icons/WhiteSur-light || true
 
 ### 5. Lock down settings #################################################
-# Lock every key from 00-senioren so the user cannot change anything.
+# Lock every key from 00-senioren so the user cannot change anything,
+# except the wallpaper: an own photo as background is allowed.
 awk '
   /^\[.*\]$/ { sec = substr($0, 2, length($0) - 2); next }
+  sec == "org/gnome/desktop/background" { next }
   /^[a-z0-9-]+=/ { split($0, kv, "="); print "/" sec "/" kv[1] }
 ' /etc/dconf/db/local.d/00-senioren > /etc/dconf/db/local.d/locks/00-senioren-auto
+! grep -q desktop/background /etc/dconf/db/local.d/locks/00-senioren-auto
 wc -l /etc/dconf/db/local.d/locks/00-senioren-auto
 # Admin accounts get the same defaults, but without locks
 mkdir -p /etc/dconf/db/senioren-admin.d

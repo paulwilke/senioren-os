@@ -21,7 +21,7 @@ Everything is open source. The only exception is the Broadcom Wi-Fi driver that 
 | Area | Contents |
 |---|---|
 | Desktop | GNOME in Mac style: dock at the bottom (always visible), window buttons on the left, WhiteSur icons and cursors, Inter font +20 %, large mouse pointer, accessibility menu always visible |
-| Locked down | All settings from `00-senioren` are locked: dock incl. trash, wallpaper, font, window buttons, app grid. Settings, Terminal and the software center are hidden. Alt+F2 is disabled |
+| Locked down | All settings from `00-senioren` are locked except the wallpaper (own photo via the image viewer): dock incl. trash, wallpaper, font, window buttons, app grid. Settings, Terminal and the software center are hidden. Alt+F2 is disabled |
 | Calm | A single fixed workspace, no "hot corner", no update notifications, no welcome tour, no automatic screen lock |
 | Apps | Firefox, Thunderbird (e-mail), LibreOffice, photo gallery (gThumb), image viewer, PDF viewer (Papers), video player (Showtime), Gear Lever (installs downloaded AppImages), RustDesk (remote help from the family), ZapZap (WhatsApp), Butler (Home Assistant, e.g. a solar power system) |
 | Firefox | Locked homepage (Sparkasse), bookmarks for YouTube, news, weather, TV media libraries, video calls. uBlock Origin, HTTPS-only, no telemetry, no third-party add-ons, no about:config, website notifications blocked |
@@ -124,6 +124,19 @@ an entry point for phone and website scams.
 Change → commit → GitHub rebuilds → the machines have it after their next reboot.
 
 **Your own variant:** fork the repo and adjust the GitHub user name in `iso/config.toml`.
+
+## Files that cannot be opened here
+
+Double-clicking a Windows program (`.exe`, `.msi`), a Mac disk image (`.dmg`, `.pkg`), a phone app
+(`.apk`), an installer package or a disk image opens a plain notice instead of an error or a disk
+tool: what the file is, that it does not run here, whom to ask, and a button to move it to the trash.
+The name of the person to ask is set per machine (otherwise "deine Familie"):
+
+```bash
+echo "Paul" | sudo tee /etc/senioren-os/helfer
+```
+
+AppImages open in Gear Lever, which makes them executable and adds them to the app menu.
 
 ## Per-machine homepage and bookmarks
 
