@@ -2,3 +2,4 @@ output/
 *.iso
 # Local files that must never be committed (e.g. private notes, PDFs)
 /*.pdf
+__pycache__/
