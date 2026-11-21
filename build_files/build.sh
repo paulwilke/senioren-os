@@ -34,7 +34,8 @@ dnf5 -y install \
     gnome-shell-extension-dash-to-dock \
     gnome-shell-extension-appindicator \
     rsms-inter-fonts \
-    usbmuxd libimobiledevice-utils ifuse gvfs-afc gvfs-gphoto2
+    usbmuxd libimobiledevice-utils ifuse gvfs-afc gvfs-gphoto2 \
+    fuse fuse-libs
 
 # Language from senioren-os.conf: translations, date formats, spell checking
 dnf5 -y install --skip-unavailable \
