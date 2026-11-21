@@ -50,6 +50,24 @@ application/x-executable=senioren-hinweis.desktop
 application/vnd.flatpak.ref=senioren-hinweis.desktop
 application/vnd.flatpak=senioren-hinweis.desktop
 
+# Audio (e.g. WAV and MP3 downloads) and plain text
+audio/x-wav=org.gnome.Decibels.desktop
+audio/wav=org.gnome.Decibels.desktop
+audio/vnd.wave=org.gnome.Decibels.desktop
+audio/mpeg=org.gnome.Decibels.desktop
+audio/mp3=org.gnome.Decibels.desktop
+audio/mp4=org.gnome.Decibels.desktop
+audio/x-m4a=org.gnome.Decibels.desktop
+audio/aac=org.gnome.Decibels.desktop
+audio/ogg=org.gnome.Decibels.desktop
+audio/x-vorbis+ogg=org.gnome.Decibels.desktop
+audio/opus=org.gnome.Decibels.desktop
+audio/flac=org.gnome.Decibels.desktop
+audio/x-flac=org.gnome.Decibels.desktop
+audio/x-aiff=org.gnome.Decibels.desktop
+audio/webm=org.gnome.Decibels.desktop
+text/plain=org.gnome.TextEditor.desktop
+
 [Removed Associations]
 application/vnd.appimage=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;
 application/x-iso9660-appimage=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;

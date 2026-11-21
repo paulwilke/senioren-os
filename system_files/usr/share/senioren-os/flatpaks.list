@@ -4,6 +4,8 @@ org.gnome.Loupe
 org.gnome.gThumb
 org.gnome.Papers
 org.gnome.Showtime
+org.gnome.Decibels
+org.gnome.TextEditor
 it.mijorus.gearlever
 com.rtosta.zapzap
 com.cassidyjames.butler

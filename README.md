@@ -23,7 +23,7 @@ Everything is open source. The only exception is the Broadcom Wi-Fi driver that 
 | Desktop | GNOME in Mac style: dock at the bottom (always visible), window buttons on the left, WhiteSur icons and cursors, Inter font +20 %, large mouse pointer, accessibility menu always visible |
 | Locked down | All settings from `00-senioren` are locked except the wallpaper (own photo via the image viewer): dock incl. trash, wallpaper, font, window buttons, app grid. Settings, Terminal and the software center are hidden. Alt+F2 is disabled |
 | Calm | A single fixed workspace, no "hot corner", no update notifications, no welcome tour, no automatic screen lock |
-| Apps | Firefox, Thunderbird (e-mail), LibreOffice, photo gallery (gThumb), image viewer, PDF viewer (Papers), video player (Showtime), Gear Lever (installs downloaded AppImages), RustDesk (remote help from the family), ZapZap (WhatsApp), Butler (Home Assistant, e.g. a solar power system) |
+| Apps | Firefox, Thunderbird (e-mail), LibreOffice, photo gallery (gThumb), image viewer, PDF viewer (Papers), video player (Showtime), audio player (Decibels), text editor, Gear Lever (installs downloaded AppImages), RustDesk (remote help from the family), ZapZap (WhatsApp), Butler (Home Assistant, e.g. a solar power system) |
 | Firefox | Locked homepage (Sparkasse), bookmarks for YouTube, news, weather, TV media libraries, video calls. uBlock Origin, HTTPS-only, no telemetry, no third-party add-ons, no about:config, website notifications blocked |
 | Keyboard/touchpad | German Mac keyboard, natural scrolling, tap to click |
 | Hardware | Broadcom Wi-Fi (`wl`), iPhone/iPad (photos via "Files"), Mac fan control if available |
