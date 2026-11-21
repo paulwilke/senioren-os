@@ -1,0 +1,13 @@
+[Unit]
+Description=Senioren-OS: reload the Broadcom Wi-Fi driver when it gets stuck
+After=NetworkManager.service
+# Only on machines that use the Broadcom "wl" driver
+ConditionPathExists=/sys/module/wl
+
+[Service]
+ExecStart=/usr/libexec/senioren-wlan-waechter
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

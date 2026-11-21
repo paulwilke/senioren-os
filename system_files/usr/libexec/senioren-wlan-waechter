@@ -1,0 +1,49 @@
+#!/usr/bin/bash
+# Self-healing for the Broadcom "wl" Wi-Fi driver (MacBooks).
+#
+# After roaming between access points (mesh Wi-Fi) the driver sometimes gets stuck: every
+# attempt ends in "Association request to the driver failed" and only a reload of the
+# module (or a long power-off) helps. This watches wpa_supplicant's log and reloads the
+# driver when that happens repeatedly while no Wi-Fi is connected.
+#
+#   --stdin   read log lines from stdin and only print what would be done (for testing)
+set -u
+
+LIMIT=3        # failures ...
+WINDOW=120     # ... within this many seconds
+COOLDOWN=300   # at most one reload per 5 minutes
+
+DRYRUN=0
+[[ ${1:-} == --stdin ]] && DRYRUN=1
+
+wifi_connected() {
+    nmcli -t -f TYPE,STATE device 2>/dev/null | grep -q '^wifi:connected$'
+}
+
+reload_driver() {
+    if (( DRYRUN )); then echo "WOULD RELOAD wl"; return; fi
+    echo "Wi-Fi driver stuck, reloading wl"
+    modprobe -r wl && sleep 2 && modprobe wl
+    echo "wl reloaded (exit $?)"
+}
+
+watch_log() {
+    local line now first=0 count=0 last_reload=0
+    while IFS= read -r line; do
+        [[ $line == *"Association request to the driver failed"* ]] || continue
+        now=$(date +%s)
+        if (( now - first > WINDOW )); then first=$now; count=0; fi
+        count=$(( count + 1 ))
+        (( count >= LIMIT )) || continue
+        (( now - last_reload >= COOLDOWN )) || continue
+        if (( ! DRYRUN )) && wifi_connected; then count=0; continue; fi
+        reload_driver
+        last_reload=$now; count=0; first=0
+    done
+}
+
+if (( DRYRUN )); then
+    watch_log
+else
+    journalctl --follow --lines=0 --output=cat --identifier=wpa_supplicant | watch_log
+fi

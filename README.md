@@ -26,7 +26,7 @@ Everything is open source. The only exception is the Broadcom Wi-Fi driver that 
 | Apps | Firefox, Thunderbird (e-mail), LibreOffice, photo gallery (gThumb), image viewer, PDF viewer (Papers), video player (Showtime), audio player (Decibels), text editor, Gear Lever (installs downloaded AppImages), RustDesk (remote help from the family), ZapZap (WhatsApp), Butler (Home Assistant, e.g. a solar power system) |
 | Firefox | Locked neutral homepage (Google), bookmarks for the Sparkasse, YouTube, news, weather, TV media libraries, video calls. uBlock Origin, HTTPS-only, no telemetry, no third-party add-ons, no about:config, website notifications blocked |
 | Keyboard/touchpad | German Mac keyboard, natural scrolling, tap to click |
-| Hardware | Broadcom Wi-Fi (`wl`), iPhone/iPad (photos via "Files"), Mac fan control if available |
+| Hardware | Broadcom Wi-Fi (`wl`, reloaded automatically when it gets stuck after roaming between access points), iPhone/iPad (photos via "Files"), Mac fan control if available |
 | Remote maintenance | Tailscale + SSH (admin accounts only, keys only, only via Tailscale). On foreign networks nothing is reachable from outside |
 | Updates | Built daily and split into chunks (only what changed is downloaded). Downloaded in the background, active after the next reboot. Never over metered connections |
 

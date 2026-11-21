@@ -128,7 +128,8 @@ done
 /usr/libexec/senioren-firefox-policies.py
 python3 -c "import json; json.load(open('/etc/firefox/policies/policies.json'))"
 
-systemctl enable senioren-flatpaks.service senioren-mac-gpu.service senioren-firefox-policies.service
+systemctl enable senioren-flatpaks.service senioren-mac-gpu.service senioren-firefox-policies.service \
+    senioren-wlan-waechter.service
 systemctl enable tailscaled.service sshd.service
 
 # Firewall: on foreign networks (holiday, café) nothing is reachable from outside.
