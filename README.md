@@ -24,7 +24,7 @@ Everything is open source. The only exception is the Broadcom Wi-Fi driver that 
 | Locked down | All settings from `00-senioren` are locked except the wallpaper (own photo via the image viewer): dock incl. trash, wallpaper, font, window buttons, app grid. Settings, Terminal and the software center are hidden. Alt+F2 is disabled |
 | Calm | A single fixed workspace, no "hot corner", no update notifications, no welcome tour, no automatic screen lock |
 | Apps | Firefox, Thunderbird (e-mail), LibreOffice, photo gallery (gThumb), image viewer, PDF viewer (Papers), video player (Showtime), audio player (Decibels), text editor, Gear Lever (installs downloaded AppImages), RustDesk (remote help from the family), ZapZap (WhatsApp), Butler (Home Assistant, e.g. a solar power system) |
-| Firefox | Locked homepage (Sparkasse), bookmarks for YouTube, news, weather, TV media libraries, video calls. uBlock Origin, HTTPS-only, no telemetry, no third-party add-ons, no about:config, website notifications blocked |
+| Firefox | Locked neutral homepage (Google), bookmarks for the Sparkasse, YouTube, news, weather, TV media libraries, video calls. uBlock Origin, HTTPS-only, no telemetry, no third-party add-ons, no about:config, website notifications blocked |
 | Keyboard/touchpad | German Mac keyboard, natural scrolling, tap to click |
 | Hardware | Broadcom Wi-Fi (`wl`), iPhone/iPad (photos via "Files"), Mac fan control if available |
 | Remote maintenance | Tailscale + SSH (admin accounts only, keys only, only via Tailscale). On foreign networks nothing is reachable from outside |
@@ -140,7 +140,7 @@ AppImages open in Gear Lever, which makes them executable and adds them to the a
 
 ## Per-machine homepage and bookmarks
 
-The default points to sparkasse.de. The user's own local Sparkasse and personal bookmarks do not belong
+The default homepage is Google and the Sparkasse bookmark points to sparkasse.de. The user's own local Sparkasse and personal bookmarks do not belong
 in the public image; as admin, put them on the machine itself. Each entry replaces the default entry
 of the same name, stays locked and survives updates:
 
@@ -148,7 +148,6 @@ of the same name, stays locked and survives updates:
 sudo mkdir -p /etc/senioren-os
 sudo tee /etc/senioren-os/firefox-lokal.json <<'X'
 {"policies": {
-  "Homepage": {"URL": "https://www.MEINE-SPARKASSE.de", "StartPage": "homepage", "Locked": true},
   "Bookmarks": [
     {"Title": "Sparkasse", "URL": "https://www.MEINE-SPARKASSE.de", "Placement": "toolbar"},
     {"Title": "YouTube", "URL": "https://www.youtube.com", "Placement": "toolbar"}
