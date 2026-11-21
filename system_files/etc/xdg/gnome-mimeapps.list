@@ -23,3 +23,11 @@ image/bmp=org.gnome.Loupe.desktop
 image/avif=org.gnome.Loupe.desktop
 image/jxl=org.gnome.Loupe.desktop
 image/svg+xml=org.gnome.Loupe.desktop
+# Programs downloaded as AppImage: install with Gear Lever (makes them executable and adds
+# them to the app menu) instead of the disk tool, which offers to overwrite a drive
+application/vnd.appimage=it.mijorus.gearlever.desktop
+application/x-iso9660-appimage=it.mijorus.gearlever.desktop
+
+[Removed Associations]
+application/vnd.appimage=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;
+application/x-iso9660-appimage=gnome-disk-image-writer.desktop;gnome-disk-image-mounter.desktop;
