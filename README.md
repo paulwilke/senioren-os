@@ -168,17 +168,28 @@ sudo rpm-ostree install ~/Downloads/ChatGPT-*.rpm
 systemctl reboot
 ```
 
-The app survives system updates. New versions of the app have to be installed by hand
-unless the vendor provides a package repository.
+The app survives system updates. A package installed from a local file is not updated, though.
+If the vendor provides a package repository, install from that instead; then new versions arrive
+with the daily system update. The official ChatGPT `.rpm` ships its repository definition, so
+copy it into `/etc` first (`rpm-ostree` does not run the vendor's repository setup):
+
+```bash
+mkdir /tmp/chatgpt && cd /tmp/chatgpt
+curl -fLO https://persistent.oaistatic.com/codex-app-prod/linux/rpm/latest/chatgpt.x86_64.rpm
+rpm2cpio chatgpt.x86_64.rpm | cpio -idm './etc/yum.repos.d/*' './etc/pki/rpm-gpg/*'
+sudo cp -r etc/. /etc/
+sudo rpm-ostree install chatgpt     # from OpenAI's repository, updated automatically
+systemctl reboot
+```
 
 **Adding it to the dock:** the dock list is locked. So, as admin, create a separate file
 that overrides the default and survives updates:
 
 ```bash
-ls /usr/share/applications | grep -i chatgpt      # find the name of the .desktop file
+ls /usr/share/applications | grep -i chatgpt      # name of the .desktop file (here: chatgpt.desktop)
 sudo tee /etc/dconf/db/local.d/50-lokal <<'X'
 [org/gnome/shell]
-favorite-apps=['org.mozilla.firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'com.cassidyjames.butler.desktop', 'CHATGPT.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.gThumb.desktop', 'com.rustdesk.RustDesk.desktop']
+favorite-apps=['org.mozilla.firefox.desktop', 'net.thunderbird.Thunderbird.desktop', 'com.rtosta.zapzap.desktop', 'com.cassidyjames.butler.desktop', 'chatgpt.desktop', 'org.libreoffice.LibreOffice.writer.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.gThumb.desktop', 'com.rustdesk.RustDesk.desktop']
 X
 sudo dconf update
 ```
