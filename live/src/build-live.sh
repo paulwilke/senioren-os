@@ -81,11 +81,12 @@ firewall --use-system-defaults
 X
 mkdir -p /usr/share/anaconda/post-scripts
 cat > /usr/share/anaconda/post-scripts/senioren-flatpaks.ks <<'X'
-%post --erroronfail --nochroot
-deployment="$(ostree rev-parse --repo=/mnt/sysimage/ostree/repo ostree/0/1/0)"
-target="/mnt/sysimage/ostree/deploy/default/deploy/$deployment.0/var/lib/"
-mkdir -p "$target"
-rsync -aAXUHK /var/lib/flatpak "$target"
+%post --nochroot
+# /var of the installed system is the stateroot's var, not the (immutable) deployment
+# directory. Only a shortcut: if the copy fails, senioren-flatpaks.service installs the
+# apps from Flathub after the first boot, so never fail the installation because of it.
+target=$(echo /mnt/sysimage/ostree/deploy/*/var | cut -d' ' -f1)/lib/
+mkdir -p "$target" && rsync -aAXUHK /var/lib/flatpak "$target" || echo "flatpak copy failed, apps will come from Flathub"
 %end
 X
 
