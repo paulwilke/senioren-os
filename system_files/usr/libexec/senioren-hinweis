@@ -4,7 +4,7 @@ Windows programs, Mac disk images, phone apps, installer packages, disk images.
 
 Instead of an obscure error or a disk tool that offers to overwrite a drive, the user sees
 in large, plain German what the file is and whom to ask. The helper's name is set per
-machine in /etc/senioren-os/helfer (e.g. "Paul"); without it, "deine Familie" is used."""
+machine in /etc/senioren-os/helfer (e.g. "deine Ansprechperson"); without it, "deine Familie" is used."""
 import os, sys
 
 import gi

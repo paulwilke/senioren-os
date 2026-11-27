@@ -13,7 +13,7 @@ cp -a "$CTX/system_files/." /
 desktop-file-validate /usr/share/applications/senioren-hinweis.desktop
 update-desktop-database /usr/share/applications
 
-### 2. Broadcom-WLAN (BCM4331 im MacBook Pro 2012) #########################
+### 2. Broadcom Wi-Fi (BCM4331 in the 2012 MacBook Pro) #########################
 # Prebuilt kmod-wl from Universal Blue, matching the kernel in the image.
 KERNEL=$(rpm -q kernel-core --qf '%{VERSION}-%{RELEASE}.%{ARCH}\n' | tail -1)
 skopeo copy --retry-times 3 \

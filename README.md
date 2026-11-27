@@ -2,15 +2,15 @@
 
 A calm, Mac-like Linux for older people who just want to browse the web, read e-mail,
 watch YouTube, do online banking and write the occasional letter.
-Built for older Intel MacBooks (tested on a MacBook Pro Retina 15", 2012),
-but runs on any x86-64 computer.
+Targets x86-64 PCs and older Intel Macs. It has been tested on a 15-inch Retina MacBook Pro
+from 2012. Try the live ISO to check your hardware before installing.
 
 It is based on **Fedora Silverblue** via [Universal Blue](https://universal-blue.org) (`silverblue-main`).
 The system is read-only ("atomic"): updates arrive as a whole, and if something goes wrong
 you simply pick the previous version at boot.
 
-Everything is open source. The only exception is the Broadcom Wi-Fi driver that many MacBooks need
-(from RPM Fusion nonfree).
+The repository is Apache-2.0 licensed. The image includes third-party components under their own
+licenses, including the Broadcom Wi-Fi driver from RPM Fusion Nonfree.
 
 > **Language:** Senioren-OS is made for German-speaking users. The documentation and code comments
 > are in English, but everything the user sees (desktop, apps, keyboard layout, Firefox bookmarks, installer
@@ -21,7 +21,7 @@ Everything is open source. The only exception is the Broadcom Wi-Fi driver that 
 | Area | Contents |
 |---|---|
 | Desktop | GNOME in Mac style: dock at the bottom (always visible), window buttons on the left, WhiteSur icons and cursors, Inter font +20 %, large mouse pointer, accessibility menu always visible |
-| Locked down | All settings from `00-senioren` are locked except the wallpaper (own photo via the image viewer): dock incl. trash, wallpaper, font, window buttons, app grid. Settings, Terminal and the software center are hidden. Alt+F2 is disabled |
+| Locked down | All settings from `00-senioren` are locked except the wallpaper (own photo via the image viewer): dock incl. trash, font, window buttons, app grid. Settings, Terminal and the software center are hidden. Alt+F2 is disabled |
 | Calm | A single fixed workspace, no "hot corner", no update notifications, no welcome tour, no automatic screen lock |
 | Apps | Firefox, Thunderbird (e-mail), LibreOffice, photo gallery (gThumb), image viewer, PDF viewer (Papers), video player (Showtime), audio player (Decibels), text editor, Gear Lever (installs downloaded AppImages), RustDesk (remote help from the family), ZapZap (WhatsApp), Butler (Home Assistant, e.g. a solar power system) |
 | Firefox | Locked neutral homepage (Google), bookmarks for the Sparkasse, YouTube, news, weather, TV media libraries, video calls. uBlock Origin, HTTPS-only, no telemetry, no third-party add-ons, no about:config, website notifications blocked |
@@ -30,21 +30,26 @@ Everything is open source. The only exception is the Broadcom Wi-Fi driver that 
 | Remote maintenance | Tailscale + SSH (admin accounts only, keys only, only via Tailscale). On foreign networks nothing is reachable from outside |
 | Updates | Built daily and split into chunks (only what changed is downloaded). Downloaded in the background, active after the next reboot. Never over metered connections |
 
-**Admin accounts** (group `wheel`) are exempt from all restrictions and see all apps.
-Only the user's own account is locked down.
+**Admin accounts** (group `wheel`) get an unlocked GNOME profile and access to the hidden launchers.
+System-wide browser policies still apply.
 
 ## One USB stick for everything: try it, rescue Mac data, install
 
-*Actions → "Build live ISO" → Run workflow*, after about 30–40 minutes download `senioren-os-live.iso`
-and write it to a USB stick with balenaEtcher. On the Mac, boot holding **Alt** → "EFI Boot" →
-"Senioren-OS ausprobieren" (try Senioren-OS). Nothing is installed and nothing is changed.
+The ISOs are workflow artifacts. On a repository where you have permission to run workflows,
+open *Actions → "Build live ISO (try out + data rescue)" → Run workflow*. Download
+`senioren-os-live.iso` and its checksum from the completed run and verify the checksum before
+writing the ISO to a USB stick with balenaEtcher. On the Mac, boot holding **Alt** → "EFI Boot" →
+"Senioren-OS ausprobieren" (try Senioren-OS). Nothing is installed. Only two small things are written
+to the machine: on MacBooks with two graphics chips the firmware's graphics preference is set to Intel
+(as the installed system does), and the hardware clock is corrected once the time is known.
 
 - This is what it looks like for the user (locked down). In addition the dock has a terminal and **"Mac-Daten retten"** (rescue Mac data).
-- **"Mac-Daten retten"** finds the old Mac disk (APFS, read-only) and copies all user folders
-  to an external disk (ideally exFAT) into the folder `mac-backup`.
+- **"Mac-Daten retten"** finds the old Mac disk (APFS, read-only) and copies the user folders it finds
+  to an external disk (ideally exFAT) into the folder `mac-backup`. Check the copy on another
+  computer before starting installation.
 - Good for testing Wi-Fi, graphics and font size on exactly this machine before installing.
 - **"Senioren-OS installieren"** (install Senioren-OS) in the dock starts the installer. It needs **internet**
-  (Wi-Fi works in the live system), because it downloads the current system from GitHub (about 4 GB). The apps are copied from the stick.
+  (Wi-Fi works in the live system), because it downloads the current system from GitHub (about 4 GB). The installer tries to copy the apps from the stick. If that fails, the first-boot service installs them from Flathub.
 
 The plain installation ISO (*"Build installation ISO"*) is still available, e.g. for machines without network access during installation.
 
@@ -55,15 +60,15 @@ The plain installation ISO (*"Build installation ISO"*) is still available, e.g.
    (Or build locally: see below.)
 2. **Write it to a USB stick** (at least 8 GB), e.g. with [balenaEtcher](https://etcher.balena.io) or `dd`.
 3. **On the MacBook:** plug in the stick, hold **⌥ (Alt)** while powering on, choose "EFI Boot".
-4. **In the installer:** language German, use the whole disk, create two users:
+4. **In the installer:** choose the language and confirm the target disk. **Using the whole disk erases its contents.**
+   Verify your backup on a separate drive before continuing. Create two accounts:
    - **the user**, *without* administrator rights
    - **you (family/helper)**, *with* administrator rights
 5. **After the first boot**, connect to Wi-Fi. LibreOffice, RustDesk, ZapZap, Butler, photo gallery, image viewer, PDF viewer and video player
    are then installed automatically (a few minutes).
 6. Set up the e-mail account in Thunderbird. In RustDesk, set a permanent password under settings
    and write down the ID.
-
-7. Open ZapZap and scan the QR code with the phone. In Butler, enter the Home Assistant address
+7. If you use WhatsApp, open ZapZap and scan the QR code with the phone. If you use Home Assistant, open Butler and enter the address
    (e.g. the Tailscale address or the Nabu Casa address) and sign in.
 8. Set up remote maintenance, see below.
 
@@ -81,12 +86,16 @@ chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys
 
 In the Tailscale admin console, enable **"Disable key expiry"** for this device,
 otherwise it drops off the network after 180 days, e.g. in the middle of a holiday.
+Limit tailnet access to the people and devices you use for support.
 
-Afterwards, from anywhere:
+Afterwards, from anywhere (replace `admin` with the actual administrator account name):
 
 ```bash
 ssh admin@senioren-mac
 ```
+
+To remove remote access, remove the support key from `~/.ssh/authorized_keys` and disconnect
+the machine from the tailnet with `sudo tailscale logout` if it no longer needs Tailscale.
 
 **AI agent for repairs:** install Claude Code in the admin account only (it goes to `~/.local/bin`
 and works on the read-only system):
@@ -101,17 +110,20 @@ an entry point for phone and website scams.
 
 ## Updates and poor connections
 
-- GitHub rebuilds **every night**. The machine checks daily around 11 am and catches up on a missed update at the next power-on.
-- **Not the whole system** is downloaded, only the parts that changed. Typically a few to a few hundred MB per day.
+- GitHub rebuilds **every night**. The machine checks daily around 11 am (with up to 30 minutes of random delay),
+  20 minutes after booting, and catches up on a missed check at the next power-on.
+- **Not the whole system** is downloaded, only the image layers that changed. Typically a few to a few hundred MB per day.
+  A new system version takes effect at the next reboot; Flatpak apps are updated separately.
 - `uupd` only downloads with enough battery and **never over metered connections**. Phone hotspots are usually detected automatically.
   For a weak Wi-Fi (e.g. on holiday): as admin *Settings → Wi-Fi → gear icon → Details → "Metered connection"*.
 - If a download is interrupted, nothing breaks. It is retried next time.
+- Installation and the first-boot app download do not follow these rules. Use a normal (unmetered) connection for them.
 
 ## Customizing
 
 | What | Where |
 |---|---|
-| GNOME settings (all of them are locked automatically) | `system_files/etc/dconf/db/local.d/00-senioren` |
+| GNOME defaults (locked for standard users except the wallpaper) | `system_files/etc/dconf/db/local.d/00-senioren` |
 | Additionally locked keys | `system_files/etc/dconf/db/local.d/locks/senioren` |
 | Firefox: homepage, bookmarks, policies | `system_files/usr/share/senioren-os/firefox-policies.json` |
 | Firefox per machine (local Sparkasse, own bookmarks) | on the machine `/etc/senioren-os/firefox-lokal.json`, see below |
@@ -121,19 +133,23 @@ an entry point for phone and website scams.
 | Fedora version | `FEDORA_MAJOR` in `Containerfile` (twice) |
 | Update source for newly installed machines | `iso/config.toml` |
 
-Change → commit → GitHub rebuilds → the machines have it after their next reboot.
+Push image changes to `main` to trigger a build. The machine must download the new deployment
+before it can boot into it. Changes to the live environment require a fresh live ISO build.
 
-**Your own variant:** fork the repo and adjust the GitHub user name in `iso/config.toml`.
+**Your own variant:** the workflows build from the fork owner's image namespace. Also update the
+registry references in `iso/config.toml`, `live/Containerfile`, `live/src/build-live.sh` and
+`build.sh` so the installers and local builds use your image.
 
 ## Files that cannot be opened here
 
 Double-clicking a Windows program (`.exe`, `.msi`), a Mac disk image (`.dmg`, `.pkg`), a phone app
 (`.apk`), an installer package or a disk image opens a plain notice instead of an error or a disk
 tool: what the file is, that it does not run here, whom to ask, and a button to move it to the trash.
-The name of the person to ask is set per machine (otherwise "deine Familie"):
+The default support label is `deine Familie`. To set another label, create a local override:
 
 ```bash
-echo "Paul" | sudo tee /etc/senioren-os/helfer
+sudo mkdir -p /etc/senioren-os
+printf '%s\n' "deine Ansprechperson" | sudo tee /etc/senioren-os/helfer
 ```
 
 AppImages open in Gear Lever, which makes them executable and adds them to the app menu.
@@ -228,7 +244,8 @@ For Firefox, put `"RequestedLocales": ["en-US"]` into `/etc/senioren-os/firefox-
 
 ## Building locally
 
-With Podman. On Apple Silicon Macs the build runs under emulation (takes a long time) and needs about 25–30 GB of space.
+The local script expects the rootful Podman connection `podman-machine-default-root`. On Apple
+Silicon the x86-64 build runs under emulation and needs about 25–30 GB of free space.
 
 ```bash
 ./build.sh image   # build the image
@@ -237,7 +254,7 @@ With Podman. On Apple Silicon Macs the build runs under emulation (takes a long 
 
 ## Emergency
 
-If something stops working after an update: at boot, pick the **second entry** in the menu (the previous version).
+If something stops working after an update: at boot, select the previous deployment in the boot menu.
 To roll back permanently, run `sudo bootc rollback` as admin.
 
 ## License
